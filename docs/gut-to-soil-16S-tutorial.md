@@ -163,7 +163,7 @@ This step may take up to 10 minutes to complete - it's the longest running step 
 
 :::{describe-usage}
 
-asv_seqs, asv_table, stats = use.action(
+asv_seqs, asv_table, denoising_stats, base_transition_stats = use.action(
     use.UsageAction(plugin_id='dada2',
                     action_id='denoise_paired'),
     use.UsageInputs(demultiplexed_seqs=demux,
@@ -173,7 +173,8 @@ asv_seqs, asv_table, stats = use.action(
                     trunc_len_r=250),
     use.UsageOutputNames(representative_sequences='asv_seqs',
                          table='asv_table',
-                         denoising_stats='stats'))
+                         denoising_stats='denoising_stats',
+                         base_transition_stats='base_transition_stats'))
 :::
 
 One of the outputs created by DADA2 is a summary of the denoising run.
@@ -184,7 +185,7 @@ Learning to view artifacts as Metadata creates nearly infinite possibilities for
 Here, we'll again use the [metadata plugins `tabulate` visualizer](xref:q2doc-amplicon-target#q2-action-metadata-tabulate), but this time we'll apply it to the DADA2 statistics.
 
 :::{describe-usage}
-stats_as_md = use.view_as_metadata('stats_as_md', stats)
+stats_as_md = use.view_as_metadata('stats_as_md', denoising_stats)
 
 use.action(
     use.UsageAction(plugin_id='metadata',
