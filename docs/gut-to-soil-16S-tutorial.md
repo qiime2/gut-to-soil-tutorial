@@ -1,17 +1,6 @@
 (gut-to-soil-16S-tutorial)=
 # Gut-to-soil axis 16S rRNA analysis tutorial 💩🌱
 
-:::{warning}
-This document is a work in progress as of 17 April 2025, and some aspects of the workflow are still in development.
-Commands/urls/text may be unreliable while in development.
-🚜
-:::
-
-:::{note}
-This document was built with its own conda environment that includes the amplicon distribution and the standalone plugins [q2-boots](https://doi.org/10.12688/f1000research.156295.1) and [q2-kmerizer](https://doi.org/10.1128/msystems.01550-24).
-You can download the environment file that was used from the download link on the top-right of this article.
-:::
-
 ## Background
 
 In this tutorial you'll learn an end-to-end microbiome marker-gene data science workflow, building on data presented in [Meilander *et al.* (2024): Upcycling Human Excrement: The Gut Microbiome to Soil Microbiome Axis](https://doi.org/10.1093/ismeco/ycaf089).
