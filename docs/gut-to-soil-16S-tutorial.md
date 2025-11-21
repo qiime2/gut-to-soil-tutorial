@@ -1,17 +1,6 @@
 (gut-to-soil-16S-tutorial)=
 # Gut-to-soil axis 16S rRNA analysis tutorial 💩🌱
 
-:::{warning}
-This document is a work in progress as of 17 April 2025, and some aspects of the workflow are still in development.
-Commands/urls/text may be unreliable while in development.
-🚜
-:::
-
-:::{note}
-This document was built with its own conda environment that includes the amplicon distribution and the standalone plugins [q2-boots](https://doi.org/10.12688/f1000research.156295.1) and [q2-kmerizer](https://doi.org/10.1128/msystems.01550-24).
-You can download the environment file that was used from the download link on the top-right of this article.
-:::
-
 ## Background
 
 In this tutorial you'll learn an end-to-end microbiome marker-gene data science workflow, building on data presented in [Meilander *et al.* (2024): Upcycling Human Excrement: The Gut Microbiome to Soil Microbiome Axis](https://doi.org/10.1093/ismeco/ycaf089).
@@ -163,7 +152,7 @@ This step may take up to 10 minutes to complete - it's the longest running step 
 
 :::{describe-usage}
 
-asv_seqs, asv_table, stats = use.action(
+asv_seqs, asv_table, denoising_stats, base_transition_stats = use.action(
     use.UsageAction(plugin_id='dada2',
                     action_id='denoise_paired'),
     use.UsageInputs(demultiplexed_seqs=demux,
@@ -173,7 +162,8 @@ asv_seqs, asv_table, stats = use.action(
                     trunc_len_r=250),
     use.UsageOutputNames(representative_sequences='asv_seqs',
                          table='asv_table',
-                         denoising_stats='stats'))
+                         denoising_stats='denoising_stats',
+                         base_transition_stats='base_transition_stats'))
 :::
 
 One of the outputs created by DADA2 is a summary of the denoising run.
@@ -184,13 +174,13 @@ Learning to view artifacts as Metadata creates nearly infinite possibilities for
 Here, we'll again use the [metadata plugins `tabulate` visualizer](xref:q2doc-amplicon-target#q2-action-metadata-tabulate), but this time we'll apply it to the DADA2 statistics.
 
 :::{describe-usage}
-stats_as_md = use.view_as_metadata('stats_as_md', stats)
+stats_as_md = use.view_as_metadata('stats_as_md', denoising_stats)
 
 use.action(
     use.UsageAction(plugin_id='metadata',
                     action_id='tabulate'),
     use.UsageInputs(input=stats_as_md),
-    use.UsageOutputNames(visualization='stats'))
+    use.UsageOutputNames(visualization='denoising_stats'))
 :::
 
 :::{exercise} Exploring the DADA2 denoising statistics.
