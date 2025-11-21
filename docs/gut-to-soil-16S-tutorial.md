@@ -191,7 +191,7 @@ use.action(
     use.UsageAction(plugin_id='metadata',
                     action_id='tabulate'),
     use.UsageInputs(input=stats_as_md),
-    use.UsageOutputNames(visualization='stats'))
+    use.UsageOutputNames(visualization='denoising_stats'))
 :::
 
 :::{exercise} Exploring the DADA2 denoising statistics.
