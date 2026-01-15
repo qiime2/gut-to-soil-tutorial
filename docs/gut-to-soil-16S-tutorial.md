@@ -410,8 +410,9 @@ The BLAST databases can contain mis-annotations that may negatively impact the c
 :::
 
 :::{tip} Question.
-Recall that our `asv-seqs.qzv` visualization allows you to easily BLAST the sequence associated with each feature against the NCBI nt database. This visualization has the same functionality, but now 
-with taxonomy. Using the `asv-seqs-ms2.qzv` visualization created here, compare the taxonomic assignments with the taxonomy of the best BLAST hit for a few features.
+Recall that our `asv-seqs.qzv` visualization allows you to easily BLAST the sequence associated with each feature against the NCBI nt database.
+This visualization has the same functionality, but now includes the taxonomic annotation of the ASVs as determined using QIIME 2.
+Using the `asv-seqs-ms2.qzv` visualization created here, compare the taxonomic assignments with the taxonomy of the best BLAST hit for a few features.
 How similar are the assignments?
 If they're dissimilar, at what *taxonomic level* do they begin to differ (e.g., species, genus, family, ...)?
 :::
