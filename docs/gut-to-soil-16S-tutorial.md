@@ -220,7 +220,7 @@ The [`feature-table summarize` action](xref:q2doc-amplicon-target#q2-action-feat
 :::{describe-usage}
 _, _, asv_frequencies = use.action(
     use.UsageAction(plugin_id='feature_table',
-                    action_id='summarize_plus'),
+                    action_id='summarize'),
     use.UsageInputs(table=asv_table,
                     metadata=sample_metadata),
     use.UsageOutputNames(summary='asv_table',
@@ -314,7 +314,7 @@ Here's the command you would use:
 :::{describe-usage}
 _, _, asv_frequencies_ms2 = use.action(
     use.UsageAction(plugin_id='feature_table',
-                    action_id='summarize_plus'),
+                    action_id='summarize'),
     use.UsageInputs(table=asv_table_ms2,
                     metadata=sample_metadata),
     use.UsageOutputNames(summary='asv_table_ms2',
