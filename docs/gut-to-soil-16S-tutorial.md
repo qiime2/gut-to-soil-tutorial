@@ -443,7 +443,7 @@ This is where it starts to get fun! ⛷️
 ### Kmer-based diversity analysis
 
 As mentioned above, we're going to skip building phylogenetic trees and instead use an analog of phylogenetic diversity metrics here.
-This will use two [stand-alone QIIME 2 plugins](xref:q2doc-amplicon-target#term-stand-alone-plugin), [q2-boots](https://library.qiime2.org/plugins/caporaso-lab/q2-boots) and [q2-kmerizer](https://library.qiime2.org/plugins/bokulich-lab/q2-kmerizer), which are integrated through the [`kmer-diversity`](xref:q2-boots-target#q2-action-boots-kmer-diversity) action in q2-boots.
+This will use two [stand-alone QIIME 2 plugins](xref:q2doc-amplicon-target#term-stand-alone-plugin), [q2-boots](https://library.qiime2.org/plugins/caporaso-lab/q2-boots) and [q2-kmerizer](https://library.qiime2.org/plugins/bokulich-lab/q2-kmerizer), which are integrated through the [`kmer-diversity`](xref:q2doc-library-target#q2-action-boots-kmer-diversity) action in q2-boots.
 To learn about kmerization of features and how this relates to phylogenetic diversity metrics, read the [q2-kmerizer](https://doi.org/10.1128/msystems.01550-24) paper.
 [q2-boots](https://library.qiime2.org/plugins/caporaso-lab/q2-boots) provides actions that mirror the interface of the diversity metric calculation actions in the diversity plugin, but generates more robust results because it integrates rarefaction and/or bootstrapping.
 You can learn more about this in the [q2-boots paper](https://doi.org/10.12688/f1000research.156295.1).
@@ -451,13 +451,13 @@ You can learn more about this in the [q2-boots paper](https://doi.org/10.12688/f
 ::::{margin}
 :::{note}
 When using [q2-kmerizer](https://library.qiime2.org/plugins/bokulich-lab/q2-kmerizer), normalization should be done at the ASV level before kmerization, not at the kmer level.
-This is automated by the [`kmer-diversity`](xref:q2-boots-target#q2-action-boots-kmer-diversity) action that we're using here.
+This is automated by the [`kmer-diversity`](xref:q2doc-library-target#q2-action-boots-kmer-diversity) action that we're using here.
 This is because you are trying to normalize by sequencing depth, not kmer complexity.
 In the end, the difference should not be huge but this distinction could be important for some metrics.
 :::
 ::::
 
-[`kmer-diversity`](xref:q2-boots-target#q2-action-boots-kmer-diversity) is a [`qiime2.Pipeline`](xref:q2doc-amplicon-target#term-pipeline): a type of action that links multiple other QIIME 2 actions together for convenience.
+[`kmer-diversity`](xref:q2doc-library-target#q2-action-boots-kmer-diversity) is a [`qiime2.Pipeline`](xref:q2doc-amplicon-target#term-pipeline): a type of action that links multiple other QIIME 2 actions together for convenience.
 As such, it does a lot of work.
 Here are the steps that it takes:
 1. Resample the input feature table (i.e., the ASV table) to contain exactly `sampling-depth` sequences per sample, either by bootstrapping or rarefaction, `n` times.
@@ -488,7 +488,7 @@ For more information, read the [q2-kmerizer](https://doi.org/10.1128/msystems.01
 :::
 ::::
 
-A key parameter that needs to be provided to [`kmer-diversity`](xref:q2-boots-target#q2-action-boots-kmer-diversity) is `sampling-depth`, which is the even sampling (i.e., bootstrapping or rarefaction) depth.
+A key parameter that needs to be provided to [`kmer-diversity`](xref:q2doc-library-target#q2-action-boots-kmer-diversity) is `sampling-depth`, which is the even sampling (i.e., bootstrapping or rarefaction) depth.
 Because most diversity metrics are sensitive to different sampling depths (i.e., sequence counts) across different samples, the tables are randomly subsampled such that the total frequency for each sample is the user-specified sampling depth.
 For example, if you set `sampling-depth=500`, this step will subsample the sequence counts in each sample so that each sample in the resulting table has a total frequency of 500.
 If the total frequency (i.e., the number of sequences observed) for any sample(s) is smaller than this value, those samples will be dropped from the diversity analysis.
