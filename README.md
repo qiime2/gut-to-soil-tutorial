@@ -2,7 +2,7 @@
 
 [![Copier](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/copier-org/copier/master/img/badge/badge-grayscale-inverted-border-orange.json)](https://github.com/copier-org/copier)
 
-The built documentation can be found at https://gut-to-soil-tutorial.readthedocs.io/en/stable/.
+The built documentation can be found at https://gut-to-soil-tutorial.readthedocs.io/en/latest/.
 
 ## Development instructions
 
