@@ -340,25 +340,37 @@ If you don't find a classifier that will work for you there, you may be able to 
 We strongly recommend the use of environment-weighted classifiers, as described in [Kaehler et al., (2019)](https://doi.org/10.1038/s41467-019-12669-6), and you can find builds of these on the [*Resources* page](https://library.qiime2.org/data-resources).
 ::::
 
-First, we'll download a pre-trained classifier artifact.
+:::{note} making the sub-optimal 16S rRNA classifier
+:class: dropdown
+Here we are going to train the sub-optimal 16S rRNA classifier. Training a classifier usually takes some time but this command runs fast because we are using OTUs clustered by 85% similarity and a smaller database. More information on [training a classifier is found here.](https://docs.qiime2.org/2024.10/tutorials/feature-classifier/)
+:::{describe-usage}
+trimmed_85_otus = use.init_artifact_from_url(
+    'trimmed-otus-85',
+    'https://www.dropbox.com/scl/fi/vp45hbtqtg38h3cq6su85/trimmed_85_otu.qza?rlkey=0hmmo0yx5lmwhvteqh0cbsf97&st=n5p4i4yb&dl=1')
+:::
 
 :::{describe-usage}
+otus_85_taxonomy = use.init_artifact_from_url(
+    'otus-85-taxonomy',
+    'https://www.dropbox.com/scl/fi/x5him9ztegl5d3p14o81b/85_otu_taxonomy.qza?rlkey=07nzb46retaj8ssczfa5fvo1n&st=rrf3a6f3&dl=1')
 
-def classifier_factory():
-    from urllib import request
-    from qiime2 import Artifact
-    fp, _ = request.urlretrieve(
-        'https://data.qiime2.org/classifiers/sklearn-1.4.2/greengenes/gg-13-8-99-515-806-nb-classifier.qza')
-
-    return Artifact.load(fp)
-
-classifier = use.init_artifact('suboptimal-16S-rRNA-classifier', classifier_factory)
 :::
+
+:::{describe-usage}
+classifier, = use.action(
+    use.UsageAction(plugin_id='feature_classifier',
+                    action_id='fit_classifier_naive_bayes'),
+    use.UsageInputs(reference_reads=trimmed_85_otus,
+                    reference_taxonomy=otus_85_taxonomy),
+    use.UsageOutputNames(classifier='suboptimal-16S-rRNA-classifier'))
+:::
+:::
+
 
 Then, we'll apply it to our sequences using [`classify-sklearn`](xref:q2doc-amplicon-target#q2-action-feature-classifier-classify-sklearn).
 
 :::{describe-usage}
-taxonomy, = use.action(
+ taxonomy, = use.action(
     use.UsageAction(plugin_id='feature_classifier',
                     action_id='classify_sklearn'),
     use.UsageInputs(classifier=classifier,
