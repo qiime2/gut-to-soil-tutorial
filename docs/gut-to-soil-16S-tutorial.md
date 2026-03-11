@@ -329,33 +329,75 @@ Be sure to run this as we're going to use one of the results below.
 
 Before we complete our upstream analysis steps, we'll generate taxonomic annotations for our sequences using the [feature-classifier plugin](xref:q2doc-amplicon-target#q2-plugin-feature-classifier).
 
-::::{note}
+(suboptimal-classifier-explanation)=
+:::{warning}
 The taxonomic classifier used here is very specific to the sample preparation and sequencing protocols used for this study, and Greengenes 13_8, which it is trained on, [is an outdated reference database](https://forum.qiime2.org/t/introducing-greengenes2-2022-10/25291).
 The reason we use it here is because the reference data is relatively small, so classification can be run on most modern computers with this classifier[^build-requirements-exceed-resources].
+To remind readers that they shouldn't use this classifier in practice, we're going to refer to the one we build here as our *suboptimal 16S rRNA classifier*.
 
 When you're ready to work on your own data, one of the choices you'll need to make is what classifier to use for your data.
 You can find pre-trained classifiers the QIIME 2 Library [*Resources* page](https://library.qiime2.org/data-resources).
 If you don't find a classifier that will work for you there, you may be able to [find one on the Forum](https://forum.qiime2.org/tag/taxonomy), or you can learn how to train your own [by referencing the RESCRIPt documentation](https://github.com/bokulich-lab/RESCRIPt).
 
 We strongly recommend the use of environment-weighted classifiers, as described in [Kaehler et al., (2019)](https://doi.org/10.1038/s41467-019-12669-6), and you can find builds of these on the [*Resources* page](https://library.qiime2.org/data-resources).
-::::
-
-First, we'll download a pre-trained classifier artifact.
-
-:::{describe-usage}
-
-def classifier_factory():
-    from urllib import request
-    from qiime2 import Artifact
-    fp, _ = request.urlretrieve(
-        'https://data.qiime2.org/classifiers/sklearn-1.4.2/greengenes/gg-13-8-99-515-806-nb-classifier.qza')
-
-    return Artifact.load(fp)
-
-classifier = use.init_artifact('suboptimal-16S-rRNA-classifier', classifier_factory)
 :::
 
-Then, we'll apply it to our sequences using [`classify-sklearn`](xref:q2doc-amplicon-target#q2-action-feature-classifier-classify-sklearn).
+#### Training our (suboptimal) 16S rRNA taxonomy classifier
+Here we are going to train our [suboptimal](#suboptimal-classifier-explanation) 16S rRNA classifier.
+Training a taxonomy classifier can be a slow and memory-intensive step, but the suboptimal classifier is fast to train because we are using the reference sequences following clustering at 85% similarity, which gives us a relatively small reference dataset (about 5000 sequences).
+
+First, we'll obtain the sequence data and the associated taxonomy annotations.
+
+:::{describe-usage}
+reference_sequences = use.init_artifact_from_url(
+    'reference-sequences',
+    'https://docs.qiime2.org/2024.10/data/tutorials/feature-classifier/85_otus.qza')
+:::
+
+:::{describe-usage}
+reference_taxonomy = use.init_artifact_from_url(
+    'reference-taxonomy',
+    'https://docs.qiime2.org/2024.10/data/tutorials/feature-classifier/ref-taxonomy.qza')
+:::
+
+::::{note} Optional: viewing the taxonomy reference data
+:class: dropdown
+
+If you'd like to look at the reference data before using it (never a bad idea!) you can do that by generating a tabular summary of the sequences and their associated taxonomy as follows:
+
+:::{describe-usage}
+reference_taxonomy_collection = use.construct_artifact_collection(
+    'reference-taxonomy-collection',
+    {'Greengenes_13_8_85p_OTUs': reference_taxonomy}
+)
+
+use.action(
+    use.UsageAction(plugin_id='feature_table',
+                    action_id='tabulate_seqs'),
+    use.UsageInputs(data=reference_sequences,
+                    taxonomy=reference_taxonomy_collection,
+                    merge_method='intersect'),
+    use.UsageOutputNames(visualization='reference_taxonomy'),
+)
+:::
+
+::::
+
+We'll use these data to train a Naïve Bayes taxonomy classifier, using [q2-feature-classifier](https://doi.org/10.1186/s40168-018-0470-z).
+This gives us our taxonomy classifier as a QIIME 2 artifact.
+
+:::{describe-usage}
+classifier, = use.action(
+    use.UsageAction(plugin_id='feature_classifier',
+                    action_id='fit_classifier_naive_bayes'),
+    use.UsageInputs(reference_reads=reference_sequences,
+                    reference_taxonomy=reference_taxonomy),
+    use.UsageOutputNames(classifier='suboptimal-16S-rRNA-classifier'))
+:::
+
+#### Apply our (suboptimal) taxonomy classifier
+
+Next, we'll apply our [suboptimal](#suboptimal-classifier-explanation) taxonomy classifier to our sequences using [`classify-sklearn`](xref:q2doc-amplicon-target#q2-action-feature-classifier-classify-sklearn).
 
 :::{describe-usage}
 taxonomy, = use.action(
@@ -369,6 +411,7 @@ taxonomy, = use.action(
 Then, to get an initial look at our taxonomic classifications, let's integrate taxonomy in the sequence summary, like the one we generated above.
 
 ::::{margin}
+(compare-taxonomic-annotations)=
 :::{tip}
 If you want to compare taxonomic annotations achieved with different classifiers, you can do that with the [`feature-table tabulate-seqs` action](xref:q2doc-amplicon-target#q2-action-feature-table-tabulate-seqs) by passing in multiple `FeatureData[Taxonomy]` artifacts.
 See an example of what that result might look like [here](https://view.qiime2.org/visualization/?src=https://zenodo.org/api/records/13887457/files/asv-seqs-ms10.qzv/content).
@@ -443,7 +486,7 @@ This is where it starts to get fun! ⛷️
 ### Kmer-based diversity analysis
 
 As mentioned above, we're going to skip building phylogenetic trees and instead use an analog of phylogenetic diversity metrics here.
-This will use two [stand-alone QIIME 2 plugins](xref:q2doc-amplicon-target#term-stand-alone-plugin), [q2-boots](https://library.qiime2.org/plugins/caporaso-lab/q2-boots) and [q2-kmerizer](https://library.qiime2.org/plugins/bokulich-lab/q2-kmerizer), which are integrated through the [`kmer-diversity`](xref:q2-boots-target#q2-action-boots-kmer-diversity) action in q2-boots.
+This will use two plugins: [q2-boots](https://library.qiime2.org/plugins/qiime2/q2-boots) and [q2-kmerizer](https://library.qiime2.org/plugins/bokulich-lab/q2-kmerizer), which are integrated through the [`kmer-diversity`](xref:q2-library-target#q2-action-boots-kmer-diversity) action in q2-boots.
 To learn about kmerization of features and how this relates to phylogenetic diversity metrics, read the [q2-kmerizer](https://doi.org/10.1128/msystems.01550-24) paper.
 [q2-boots](https://library.qiime2.org/plugins/caporaso-lab/q2-boots) provides actions that mirror the interface of the diversity metric calculation actions in the diversity plugin, but generates more robust results because it integrates rarefaction and/or bootstrapping.
 You can learn more about this in the [q2-boots paper](https://doi.org/10.12688/f1000research.156295.1).
@@ -451,13 +494,13 @@ You can learn more about this in the [q2-boots paper](https://doi.org/10.12688/f
 ::::{margin}
 :::{note}
 When using [q2-kmerizer](https://library.qiime2.org/plugins/bokulich-lab/q2-kmerizer), normalization should be done at the ASV level before kmerization, not at the kmer level.
-This is automated by the [`kmer-diversity`](xref:q2-boots-target#q2-action-boots-kmer-diversity) action that we're using here.
+This is automated by the [`kmer-diversity`](xref:q2-library-target#q2-action-boots-kmer-diversity) action that we're using here.
 This is because you are trying to normalize by sequencing depth, not kmer complexity.
 In the end, the difference should not be huge but this distinction could be important for some metrics.
 :::
 ::::
 
-[`kmer-diversity`](xref:q2-boots-target#q2-action-boots-kmer-diversity) is a [`qiime2.Pipeline`](xref:q2doc-amplicon-target#term-pipeline): a type of action that links multiple other QIIME 2 actions together for convenience.
+[`kmer-diversity`](xref:q2-library-target#q2-action-boots-kmer-diversity) is a [`qiime2.Pipeline`](xref:q2doc-amplicon-target#term-pipeline): a type of action that links multiple other QIIME 2 actions together for convenience.
 As such, it does a lot of work.
 Here are the steps that it takes:
 1. Resample the input feature table (i.e., the ASV table) to contain exactly `sampling-depth` sequences per sample, either by bootstrapping or rarefaction, `n` times.
@@ -488,7 +531,7 @@ For more information, read the [q2-kmerizer](https://doi.org/10.1128/msystems.01
 :::
 ::::
 
-A key parameter that needs to be provided to [`kmer-diversity`](xref:q2-boots-target#q2-action-boots-kmer-diversity) is `sampling-depth`, which is the even sampling (i.e., bootstrapping or rarefaction) depth.
+A key parameter that needs to be provided to [`kmer-diversity`](xref:q2-library-target#q2-action-boots-kmer-diversity) is `sampling-depth`, which is the even sampling (i.e., bootstrapping or rarefaction) depth.
 Because most diversity metrics are sensitive to different sampling depths (i.e., sequence counts) across different samples, the tables are randomly subsampled such that the total frequency for each sample is the user-specified sampling depth.
 For example, if you set `sampling-depth=500`, this step will subsample the sequence counts in each sample so that each sample in the resulting table has a total frequency of 500.
 If the total frequency (i.e., the number of sequences observed) for any sample(s) is smaller than this value, those samples will be dropped from the diversity analysis.
@@ -766,6 +809,7 @@ In the meantime, here are some suggestions to continue your learning:
 1. Build a machine learning classifier that classifies samples accordining to the three dominant sample types in the feature table that we used with ANCOM-BC.
  (Hint: see [`classify-samples`](xref:q2doc-amplicon-target#q2-action-sample-classifier-classify-samples).)
 1. Perform a longitudinal analysis that tracks samples from different buckets over time. Which taxa change most over time? (Hint: see [`feature-volatility`](xref:q2doc-amplicon-target#q2-action-longitudinal-feature-volatility).)
+1. Identify a more relevant taxonomy classifier using the resources [described earlier](#suboptimal-classifier-explanation) and apply it to the tutorial data. How does it change the taxonomic assignments (here's a [hint](#compare-taxonomic-annotations) on how to compare taxonomic annotations obtained from different classifiers).
 1. Remember that the full data set (five sequencing runs) are available in the [gut-to-soil Artifact Repository](https://doi.org/10.5281/zenodo.13887456).
  Grab one of the larger sequencing runs (we worked with a small sequencing run that was generated as a preliminary test), and adapt the commands in this tutorial to work on a bigger data set.
 
