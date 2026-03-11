@@ -340,7 +340,7 @@ If you don't find a classifier that will work for you there, you may be able to 
 We strongly recommend the use of environment-weighted classifiers, as described in [Kaehler et al., (2019)](https://doi.org/10.1038/s41467-019-12669-6), and you can find builds of these on the [*Resources* page](https://library.qiime2.org/data-resources).
 ::::
 
-:::{note} making the sub-optimal 16S rRNA classifier
+::::{note} making the sub-optimal 16S rRNA classifier
 :class: dropdown
 Here we are going to train the sub-optimal 16S rRNA classifier. Training a classifier usually takes some time but this command runs fast because we are using OTUs clustered by 85% similarity and a smaller database. More information on [training a classifier is found here.](https://docs.qiime2.org/2024.10/tutorials/feature-classifier/)
 :::{describe-usage}
@@ -364,13 +364,13 @@ classifier, = use.action(
                     reference_taxonomy=otus_85_taxonomy),
     use.UsageOutputNames(classifier='suboptimal-16S-rRNA-classifier'))
 :::
-:::
+::::
 
 
 Then, we'll apply it to our sequences using [`classify-sklearn`](xref:q2doc-amplicon-target#q2-action-feature-classifier-classify-sklearn).
 
 :::{describe-usage}
- taxonomy, = use.action(
+taxonomy, = use.action(
     use.UsageAction(plugin_id='feature_classifier',
                     action_id='classify_sklearn'),
     use.UsageInputs(classifier=classifier,
