@@ -3,17 +3,11 @@ version: 1
 project:
   id: gut-to-soil-tutorial
   title: The gut-to-soil axis microbiome analysis tutorial
-  # description:
-  # keywords: []
-  # authors: []
-  github: https://github.com/caporaso-lab/gut-to-soil-tutorial/
-  # To autogenerate a Table of Contents, run "jupyter book init --write-toc"
+  github: https://github.com/qiime2/gut-to-soil-tutorial/
+
   references:
-    q2doc-api-target: https://develop.qiime2.org/en/latest/
-    q2doc-usage-target: https://use.qiime2.org/en/latest/
-    q2doc-library-target: https://library.qiime2.org
-    q2doc-amplicon-target: https://amplicon-docs.qiime2.org/en/latest/
-    q2-boots-target: https://q2-boots.readthedocs.io/en/latest/
+    rachis-glossary-target: https://news.rachis.org/en/latest/
+    rachis-library-target: https://library.qiime2.org
 
   plugins:
     - type: executable

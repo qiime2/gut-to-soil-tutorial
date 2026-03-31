@@ -42,7 +42,7 @@ sample_metadata = use.init_metadata_from_url(
    'https://zenodo.org/records/15390940/files/gut-to-soil-tutorial-sample-metadata.tsv?download=1')
 :::
 
-QIIME 2's [metadata plugin](xref:q2doc-amplicon-target#q2-plugin-metadata) provides a [Visualizer called `tabulate`](xref:q2doc-amplicon-target#q2-action-metadata-tabulate) that generates a convenient view of a sample metadata file.
+QIIME 2's [metadata plugin](xref:rachis-library-target#q2-plugin-metadata) provides a [Visualizer called `tabulate`](xref:rachis-library-target#q2-action-metadata-tabulate) that generates a convenient view of a sample metadata file.
 Let's run this, and then we'll look at the result.
 Here's the first QIIME 2 command that you should run in this tutorial:
 
@@ -123,9 +123,9 @@ In this tutorial we present this step using [DADA2](https://www.ncbi.nlm.nih.gov
 The result of this method will be a `FeatureTable[Frequency]` QIIME 2 artifact, which contains counts (frequencies) of each unique sequence in each sample in the dataset, and a `FeatureData[Sequence]` QIIME 2 artifact, which maps feature identifiers in the `FeatureTable` to the sequences they represent.
 
 DADA2 is a pipeline for detecting and correcting (where possible) Illumina amplicon sequence data.
-As implemented in the [dada2 plugin](xref:q2doc-amplicon-target#q2-plugin-dada2), this quality control process will additionally filter any phiX reads (commonly present in marker gene Illumina sequence data) that are identified in the sequencing data, filter chimeric sequences, and merge paired end reads.
+As implemented in the [dada2 plugin](xref:rachis-library-target#q2-plugin-dada2), this quality control process will additionally filter any phiX reads (commonly present in marker gene Illumina sequence data) that are identified in the sequencing data, filter chimeric sequences, and merge paired end reads.
 
-The [`denoise-paired` action](xref:q2doc-amplicon-target#q2-action-dada2-denoise-paired), which we'll use here, requires four parameters that are used in quality filtering:
+The [`denoise-paired` action](xref:rachis-library-target#q2-action-dada2-denoise-paired), which we'll use here, requires four parameters that are used in quality filtering:
 - `trim-left-f a`, which trims off the first `a` bases of each forward read
 - `trunc-len-f b` which truncates each forward read at position `b`
 - `trim-left-r c`, which trims off the first `c` bases of each forward read
@@ -171,7 +171,7 @@ That is generated as an [Artifact](https://amplicon-docs.readthedocs.io/en/lates
 However this is one of many QIIME 2 types that can be [viewed as Metadata](https://use.qiime2.org/en/latest/how-to-guides/artifacts-as-metadata.html) - a very powerful concept that we'll use again later in this tutorial.
 Learning to view artifacts as Metadata creates nearly infinite possibilities for how you can explore your microbiome data with QIIME 2.
 
-Here, we'll again use the [metadata plugins `tabulate` visualizer](xref:q2doc-amplicon-target#q2-action-metadata-tabulate), but this time we'll apply it to the DADA2 statistics.
+Here, we'll again use the [metadata plugins `tabulate` visualizer](xref:rachis-library-target#q2-action-metadata-tabulate), but this time we'll apply it to the DADA2 statistics.
 
 :::{describe-usage}
 stats_as_md = use.view_as_metadata('stats_as_md', denoising_stats)
@@ -215,7 +215,7 @@ use.action(
 
 After DADA2 completes, you'll want to explore the resulting data.
 You can do this using the following two commands, which will create visual summaries of the data.
-The [`feature-table summarize` action](xref:q2doc-amplicon-target#q2-action-feature-table-summarize) command will give you information on how many sequences are associated with each sample and with each feature, histograms of those distributions, and some related summary statistics.
+The [`feature-table summarize` action](xref:rachis-library-target#q2-action-feature-table-summarize) command will give you information on how many sequences are associated with each sample and with each feature, histograms of those distributions, and some related summary statistics.
 
 :::{describe-usage}
 _, _, asv_frequencies = use.action(
@@ -233,7 +233,7 @@ What is the total number of sequences represented in the feature table?
 What is the identifier of the feature that is observed the most number of times (i.e., has the highest frequency)?
 :::
 
-The [`feature-table tabulate-seqs` action](xref:q2doc-amplicon-target#q2-action-feature-table-tabulate-seqs) command will provide a mapping of feature IDs to sequences, and provide links to easily BLAST each sequence against the NCBI nt database.
+The [`feature-table tabulate-seqs` action](xref:rachis-library-target#q2-action-feature-table-tabulate-seqs) command will provide a mapping of feature IDs to sequences, and provide links to easily BLAST each sequence against the NCBI nt database.
 We can also include the feature frequency information in this visualization by passing it as metadata, similar to how we [merged metadata](#merge-metadata) in the exercise above.
 In this case, however, we're looking a *feature metadata*, as opposed to *sample metadata*.
 As far as QIIME 2 is concerned, there is no difference between these two - in our case, it'll only be the identifiers that differ.
@@ -327,7 +327,7 @@ Be sure to run this as we're going to use one of the results below.
 
 ### Taxonomic annotation
 
-Before we complete our upstream analysis steps, we'll generate taxonomic annotations for our sequences using the [feature-classifier plugin](xref:q2doc-amplicon-target#q2-plugin-feature-classifier).
+Before we complete our upstream analysis steps, we'll generate taxonomic annotations for our sequences using the [feature-classifier plugin](xref:rachis-library-target#q2-plugin-feature-classifier).
 
 (suboptimal-classifier-explanation)=
 :::{warning}
@@ -397,7 +397,7 @@ classifier, = use.action(
 
 #### Apply our (suboptimal) taxonomy classifier
 
-Next, we'll apply our [suboptimal](#suboptimal-classifier-explanation) taxonomy classifier to our sequences using [`classify-sklearn`](xref:q2doc-amplicon-target#q2-action-feature-classifier-classify-sklearn).
+Next, we'll apply our [suboptimal](#suboptimal-classifier-explanation) taxonomy classifier to our sequences using [`classify-sklearn`](xref:rachis-library-target#q2-action-feature-classifier-classify-sklearn).
 
 :::{describe-usage}
 taxonomy, = use.action(
@@ -413,7 +413,7 @@ Then, to get an initial look at our taxonomic classifications, let's integrate t
 ::::{margin}
 (compare-taxonomic-annotations)=
 :::{tip}
-If you want to compare taxonomic annotations achieved with different classifiers, you can do that with the [`feature-table tabulate-seqs` action](xref:q2doc-amplicon-target#q2-action-feature-table-tabulate-seqs) by passing in multiple `FeatureData[Taxonomy]` artifacts.
+If you want to compare taxonomic annotations achieved with different classifiers, you can do that with the [`feature-table tabulate-seqs` action](xref:rachis-library-target#q2-action-feature-table-tabulate-seqs) by passing in multiple `FeatureData[Taxonomy]` artifacts.
 See an example of what that result might look like [here](https://view.qiime2.org/visualization/?src=https://zenodo.org/api/records/13887457/files/asv-seqs-ms10.qzv/content).
 
 While you have that visualization loaded, take a look at the data provenance.
@@ -465,7 +465,7 @@ If they're dissimilar, at what *taxonomic level* do they begin to differ (e.g., 
 
 QIIME supports several phylogenetic diversity metrics, including Faith's Phylogenetic Diversity and weighted and unweighted UniFrac.
 In addition to counts of features per sample (i.e., the data in the `FeatureTable[Frequency]` QIIME 2 artifact), these metrics require a rooted phylogenetic tree relating the features to one another.
-The amplicon distribution offers a few ways to build these trees, including a reference-based approach in the [fragment-insertion plugin](xref:q2doc-amplicon-target#q2-plugin-fragment-insertion) and *de novo* (i.e., reference-free) approaches in the [phylogeny plugin](xref:q2doc-amplicon-target#q2-plugin-phylogeny).
+The amplicon distribution offers a few ways to build these trees, including a reference-based approach in the [fragment-insertion plugin](xref:rachis-library-target#q2-plugin-fragment-insertion) and *de novo* (i.e., reference-free) approaches in the [phylogeny plugin](xref:rachis-library-target#q2-plugin-phylogeny).
 
 The reference based approach, by default, is specific to 16S rRNA marker gene analysis.
 We could use that here, but the runtime is too long for our documentation.[^build-requirements-exceed-resources]
@@ -486,7 +486,7 @@ This is where it starts to get fun! ⛷️
 ### Kmer-based diversity analysis
 
 As mentioned above, we're going to skip building phylogenetic trees and instead use an analog of phylogenetic diversity metrics here.
-This will use two plugins: [q2-boots](https://library.qiime2.org/plugins/qiime2/q2-boots) and [q2-kmerizer](https://library.qiime2.org/plugins/bokulich-lab/q2-kmerizer), which are integrated through the [`kmer-diversity`](xref:q2-library-target#q2-action-boots-kmer-diversity) action in q2-boots.
+This will use two plugins: [q2-boots](https://library.qiime2.org/plugins/qiime2/q2-boots) and [q2-kmerizer](https://library.qiime2.org/plugins/bokulich-lab/q2-kmerizer), which are integrated through the [`kmer-diversity`](xref:rachis-library-target#q2-action-boots-kmer-diversity) action in q2-boots.
 To learn about kmerization of features and how this relates to phylogenetic diversity metrics, read the [q2-kmerizer](https://doi.org/10.1128/msystems.01550-24) paper.
 [q2-boots](https://library.qiime2.org/plugins/caporaso-lab/q2-boots) provides actions that mirror the interface of the diversity metric calculation actions in the diversity plugin, but generates more robust results because it integrates rarefaction and/or bootstrapping.
 You can learn more about this in the [q2-boots paper](https://doi.org/10.12688/f1000research.156295.1).
@@ -494,13 +494,13 @@ You can learn more about this in the [q2-boots paper](https://doi.org/10.12688/f
 ::::{margin}
 :::{note}
 When using [q2-kmerizer](https://library.qiime2.org/plugins/bokulich-lab/q2-kmerizer), normalization should be done at the ASV level before kmerization, not at the kmer level.
-This is automated by the [`kmer-diversity`](xref:q2-library-target#q2-action-boots-kmer-diversity) action that we're using here.
+This is automated by the [`kmer-diversity`](xref:rachis-library-target#q2-action-boots-kmer-diversity) action that we're using here.
 This is because you are trying to normalize by sequencing depth, not kmer complexity.
 In the end, the difference should not be huge but this distinction could be important for some metrics.
 :::
 ::::
 
-[`kmer-diversity`](xref:q2-library-target#q2-action-boots-kmer-diversity) is a [`qiime2.Pipeline`](xref:q2doc-amplicon-target#term-pipeline): a type of action that links multiple other QIIME 2 actions together for convenience.
+[`kmer-diversity`](xref:rachis-library-target#q2-action-boots-kmer-diversity) is a [`qiime2.Pipeline`](xref:rachis-glossary-target#term-pipeline): a type of action that links multiple other QIIME 2 actions together for convenience.
 As such, it does a lot of work.
 Here are the steps that it takes:
 1. Resample the input feature table (i.e., the ASV table) to contain exactly `sampling-depth` sequences per sample, either by bootstrapping or rarefaction, `n` times.
@@ -521,7 +521,7 @@ Here are the steps that it takes:
 4. For each diversity metric, average the results computed across the `n` kmer tables.
    These results can be used in subsequent analysis steps (e.g., ordination, statistical modeling, machine learning).
 5. Perform PCoA ordination on the averaged beta diversity distance matrices resulting from Step 4. [^iab-machine-learning]
-6. Generate an interactive [q2-vizard scatter plot](xref:q2doc-amplicon-target#q2-action-vizard-scatterplot-2d) that contains all user-provided sample metadata, all averaged alpha diversity metrics, and the first three ordination axes for all PCoA matrices computed in step 5.
+6. Generate an interactive [q2-vizard scatter plot](xref:rachis-library-target#q2-action-vizard-scatterplot-2d) that contains all user-provided sample metadata, all averaged alpha diversity metrics, and the first three ordination axes for all PCoA matrices computed in step 5.
 
 ::::{margin}
 :::{note}
@@ -531,7 +531,7 @@ For more information, read the [q2-kmerizer](https://doi.org/10.1128/msystems.01
 :::
 ::::
 
-A key parameter that needs to be provided to [`kmer-diversity`](xref:q2-library-target#q2-action-boots-kmer-diversity) is `sampling-depth`, which is the even sampling (i.e., bootstrapping or rarefaction) depth.
+A key parameter that needs to be provided to [`kmer-diversity`](xref:rachis-library-target#q2-action-boots-kmer-diversity) is `sampling-depth`, which is the even sampling (i.e., bootstrapping or rarefaction) depth.
 Because most diversity metrics are sensitive to different sampling depths (i.e., sequence counts) across different samples, the tables are randomly subsampled such that the total frequency for each sample is the user-specified sampling depth.
 For example, if you set `sampling-depth=500`, this step will subsample the sequence counts in each sample so that each sample in the resulting table has a total frequency of 500.
 If the total frequency (i.e., the number of sequences observed) for any sample(s) is smaller than this value, those samples will be dropped from the diversity analysis.
@@ -616,7 +616,7 @@ Which sample has the lowest microbiome richness?
 
 ### Alpha rarefaction plotting
 
-In this section we'll explore alpha diversity as a function of sampling depth using the[`alpha-rarefaction` action](xref:q2doc-amplicon-target#q2-action-diversity-alpha-rarefaction).
+In this section we'll explore alpha diversity as a function of sampling depth using the[`alpha-rarefaction` action](xref:rachis-library-target#q2-action-diversity-alpha-rarefaction).
 This visualizer computes one or more alpha diversity metrics at multiple sampling depths, in steps between 1 (optionally controlled with `min-depth`) and the value provided as `max-depth`.
 At each sampling depth step, 10 rarefied tables will be generated, and the diversity metrics will be computed for all samples in the tables.
 The number of iterations (rarefied tables computed at each sampling depth) can be controlled with the `iterations` parameter.
@@ -685,14 +685,14 @@ What are the dominant phyla in each in `SampleType`?
 ### Differential abundance testing with ANCOM-BC2
 
 [ANCOM-BC2](https://doi.org/10.1038/s41592-023-02092-7) is a compositionally-aware linear regression model that allows testing for differentially abundant features across sample groups while also implementing bias correction.
-This can be accessed using the [`ancombc2` action](xref:q2doc-amplicon-target#q2-action-composition-ancombc2) in the [composition plugin](xref:q2doc-amplicon-target#q2-plugin-composition).
+This can be accessed using the [`ancombc2` action](xref:rachis-library-target#q2-action-composition-ancombc2) in the [composition plugin](xref:rachis-library-target#q2-plugin-composition).
 
 ::::{margin}
 :::{warning} Differential abundance testing is easy to get wrong! ☠️
 Accurately identifying individual features that are differentially abundant across sample types in microbiome data is a challenging problem and an open area of research, particularly if you don't have an *a priori* hypothesis about which feature(s) are differentially abundant.
 A q-value that suggests that you've identified a feature that is differentially abundant across sample groups should be considered a hypothesis, not a conclusion, and you need new samples to test that new hypothesis.
 
-In addition to the methods contained in the [composition plugin](xref:q2doc-amplicon-target#q2-plugin-composition), new approaches for differential abundance testing are regularly introduced.
+In addition to the methods contained in the [composition plugin](xref:rachis-library-target#q2-plugin-composition), new approaches for differential abundance testing are regularly introduced.
 It's worth assessing the current state of the field when performing differential abundance testing to see if there are new methods that might be useful for your data.
 If in doubt, consult a statistician.
 :::
@@ -757,7 +757,7 @@ Which genus is most depleted in HEC relative to Human Excrement?
 :label: ancombc2-genera
 You might be interested in performing ANCOM-BC2 (or other analyses) with ASVs grouped based on the genus they are derived from, rather than on the ASVs themselves.
 This may or may not increase your statistical power -- for example, if all organisms in a genus have a similar impact on their host or environment, you may want to know if that genus is differentially abundance across some category of interest.
-Take a look at the documentation for the [`collapse`](xref:q2doc-amplicon-target#q2-action-taxa-collapse) action.
+Take a look at the documentation for the [`collapse`](xref:rachis-library-target#q2-action-taxa-collapse) action.
 How would you use this to collapse our ASV table at the genus level, and then run ANCOM-BC2 on that table?
 :::
 
@@ -804,16 +804,16 @@ use.action(
 
 ## That's it for now, but more is coming soon!
 
-In the near future (as of 17 April 2025) we plan to integrate analyses using the [sample-classifier plugin](xref:q2doc-amplicon-target#q2-plugin-sample-classifier) and [longitudinal plugin](xref:q2doc-amplicon-target#q2-plugin-longitudinal).
+In the near future (as of 17 April 2025) we plan to integrate analyses using the [sample-classifier plugin](xref:rachis-library-target#q2-plugin-sample-classifier) and [longitudinal plugin](xref:rachis-library-target#q2-plugin-longitudinal).
 In the meantime, here are some suggestions to continue your learning:
 1. Build a machine learning classifier that classifies samples accordining to the three dominant sample types in the feature table that we used with ANCOM-BC.
- (Hint: see [`classify-samples`](xref:q2doc-amplicon-target#q2-action-sample-classifier-classify-samples).)
-1. Perform a longitudinal analysis that tracks samples from different buckets over time. Which taxa change most over time? (Hint: see [`feature-volatility`](xref:q2doc-amplicon-target#q2-action-longitudinal-feature-volatility).)
+ (Hint: see [`classify-samples`](xref:rachis-library-target#q2-action-sample-classifier-classify-samples).)
+1. Perform a longitudinal analysis that tracks samples from different buckets over time. Which taxa change most over time? (Hint: see [`feature-volatility`](xref:rachis-library-target#q2-action-longitudinal-feature-volatility).)
 1. Identify a more relevant taxonomy classifier using the resources [described earlier](#suboptimal-classifier-explanation) and apply it to the tutorial data. How does it change the taxonomic assignments (here's a [hint](#compare-taxonomic-annotations) on how to compare taxonomic annotations obtained from different classifiers).
 1. Remember that the full data set (five sequencing runs) are available in the [gut-to-soil Artifact Repository](https://doi.org/10.5281/zenodo.13887456).
  Grab one of the larger sequencing runs (we worked with a small sequencing run that was generated as a preliminary test), and adapt the commands in this tutorial to work on a bigger data set.
 
-We're also in the process of refactoring our statistical methods for assessing alpha and beta diversity across groups, using the new [stats plugin](xref:q2doc-amplicon-target#q2-plugin-stats).
+We're also in the process of refactoring our statistical methods for assessing alpha and beta diversity across groups, using the new [stats plugin](xref:rachis-library-target#q2-plugin-stats).
 We're therefore holding off on integrating statistical analysis until we have that ready.
 In the meantime, you can refer to you can refer to the [*Moving Pictures*](https://amplicon-docs.readthedocs.io/en/latest/tutorials/moving-pictures.html) tutorial, as well as the [sample-classifier](https://docs.qiime2.org/2024.10/tutorials/sample-classifier/) and [longitudinal](https://docs.qiime2.org/2024.10/tutorials/longitudinal/) tutorials.
 
