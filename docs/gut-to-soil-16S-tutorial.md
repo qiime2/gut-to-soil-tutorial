@@ -486,11 +486,7 @@ This is where it starts to get fun! ⛷️
 ### Kmer-based diversity analysis
 
 As mentioned above, we're going to skip building phylogenetic trees and instead use an analog of phylogenetic diversity metrics here.
-<<<<<<< HEAD
-This will use two [stand-alone QIIME 2 plugins](xref:rachis-glossary-target#term-stand-alone-plugin), [q2-boots](https://library.qiime2.org/plugins/caporaso-lab/q2-boots) and [q2-kmerizer](https://library.qiime2.org/plugins/bokulich-lab/q2-kmerizer), which are integrated through the [`kmer-diversity`](xref:rachis-library-target#q2-action-boots-kmer-diversity) action in q2-boots.
-=======
-This will use two plugins: [q2-boots](https://library.qiime2.org/plugins/qiime2/q2-boots) and [q2-kmerizer](https://library.qiime2.org/plugins/bokulich-lab/q2-kmerizer), which are integrated through the [`kmer-diversity`](xref:q2-library-target#q2-action-boots-kmer-diversity) action in q2-boots.
->>>>>>> main
+This will use two plugins: [q2-boots](https://library.qiime2.org/plugins/qiime2/q2-boots) and [q2-kmerizer](https://library.qiime2.org/plugins/bokulich-lab/q2-kmerizer), which are integrated through the [`kmer-diversity`](xref:rachis-library-target#q2-action-boots-kmer-diversity) action in q2-boots.
 To learn about kmerization of features and how this relates to phylogenetic diversity metrics, read the [q2-kmerizer](https://doi.org/10.1128/msystems.01550-24) paper.
 [q2-boots](https://library.qiime2.org/plugins/caporaso-lab/q2-boots) provides actions that mirror the interface of the diversity metric calculation actions in the diversity plugin, but generates more robust results because it integrates rarefaction and/or bootstrapping.
 You can learn more about this in the [q2-boots paper](https://doi.org/10.12688/f1000research.156295.1).
