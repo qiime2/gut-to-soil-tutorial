@@ -331,12 +331,12 @@ Before we complete our upstream analysis steps, we'll generate taxonomic annotat
 
 (suboptimal-classifier-explanation)=
 :::{warning}
-The taxonomic classifier used here is very specific to the sample preparation and sequencing protocols used for this study, and Greengenes 13_8, which it is trained on, [is an outdated reference database](https://forum.qiime2.org/t/introducing-greengenes2-2022-10/25291).
-The reason we use it here is because the reference data is relatively small, so classification can be run on most modern computers with this classifier[^build-requirements-exceed-resources].
+The taxonomic classifier used here is trained on Greengenes 13_8, which [is an outdated reference database](https://forum.qiime2.org/t/introducing-greengenes2-2022-10/25291).
+The reason we use it here is because the reference data is relatively small, so classification can be run quickly on most modern computers with this classifier.
 To remind readers that they shouldn't use this classifier in practice, we're going to refer to the one we build here as our *suboptimal 16S rRNA classifier*.
 
 When you're ready to work on your own data, one of the choices you'll need to make is what classifier to use for your data.
-You can find pre-trained classifiers the QIIME 2 Library [*Resources* page](https://library.qiime2.org/data-resources).
+You can discover pre-trained classifiers the QIIME 2 Library [*Resources* page](https://library.qiime2.org/data-resources).
 If you don't find a classifier that will work for you there, you may be able to [find one on the Forum](https://forum.qiime2.org/tag/taxonomy), or you can learn how to train your own [by referencing the RESCRIPt documentation](https://github.com/bokulich-lab/RESCRIPt).
 
 We strongly recommend the use of environment-weighted classifiers, as described in [Kaehler et al., (2019)](https://doi.org/10.1038/s41467-019-12669-6), and you can find builds of these on the [*Resources* page](https://library.qiime2.org/data-resources).
@@ -363,7 +363,7 @@ reference_taxonomy = use.init_artifact_from_url(
 ::::{note} Optional: viewing the taxonomy reference data
 :class: dropdown
 
-If you'd like to look at the reference data before using it (never a bad idea!) you can do that by generating a tabular summary of the sequences and their associated taxonomy as follows:
+If you'd like to inspect the reference data before using it (never a bad idea!) you can do that by generating a summary which includes high-level characteristics and a table of the sequences and their associated taxonomy as follows:
 
 :::{describe-usage}
 reference_taxonomy_collection = use.construct_artifact_collection(
