@@ -15,7 +15,7 @@ Full details are presented in [Meilander *et al.* (2024)](https://doi.org/10.109
 
 ::::{margin}
 :::{tip} Why study human excrement composting?
-Get our take on that [here](https://gut-to-soil-tutorial.readthedocs.io/en/latest/why.html).
+Get our take on that [here](https://gut-to-soil-tutorial.readthedocs.io/en/latest/why/).
 :::
 ::::
 
