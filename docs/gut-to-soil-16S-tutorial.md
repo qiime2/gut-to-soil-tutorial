@@ -15,7 +15,7 @@ Full details are presented in [Meilander *et al.* (2024)](https://doi.org/10.109
 
 ::::{margin}
 :::{tip} Why study human excrement composting?
-Get our take on that [here](https://gut-to-soil-tutorial.readthedocs.io/en/latest/why/).
+Get our take on that [here](https://gut-to-soil-tutorial.readthedocs.io/en/2026.4/why/).
 :::
 ::::
 
@@ -28,7 +28,7 @@ This `sample-metadata.tsv` file is used throughout the rest of the tutorial.
 
 ::::{margin}
 :::{tip}
-To learn more about metadata in QIIME 2, including how it should be formatted, refer to [*Using QIIME 2*'s Metadata file format](https://use.qiime2.org/en/latest/references/metadata.html).
+To learn more about metadata in QIIME 2, including how it should be formatted, refer to [*Using QIIME 2*'s Metadata file format](https://use.qiime2.org/en/2026.4/references/metadata/).
 
 To learn more about metadata standards, you can refer to [Chloe Herman's video on this topic](https://www.youtube.com/watch?v=erklD1bofzE), which was developed in collaboration with the [National Microbiome Data Collaborative (NMDC)](https://microbiomedata.org/).
 :::
@@ -58,11 +58,11 @@ use.action(
 
 ::::{margin}
 :::{tip}
-You can learn more about viewing Visualizations, including alternatives to QIIME 2 View if you can't use that for any reason, [in *Using QIIME 2*](https://use.qiime2.org/en/latest/how-to-guides/view-visualizations.html).
+You can learn more about viewing Visualizations, including alternatives to QIIME 2 View if you can't use that for any reason, [in *Using QIIME 2*](https://use.qiime2.org/en/2026.4/how-to-guides/view-visualizations/).
 :::
 ::::
 
-This will generate a QIIME 2 [Visualization](https://amplicon-docs.readthedocs.io/en/latest/explanations/getting-started.html#getting-started-artifacts-and-visualizations).
+This will generate a QIIME 2 [Visualization](https://amplicon-docs.readthedocs.io/en/2026.4/explanations/getting-started#getting-started-artifacts-and-visualizations).
 Visualizations can be viewed by loading them with [QIIME 2 View](https://view.qiime2.org).
 Navigate to QIIME 2 View, and drag and drop the visualization that was created to view it.
 
@@ -70,14 +70,14 @@ Navigate to QIIME 2 View, and drag and drop the visualization that was created t
 
 This tutorial begins with paired-end read sequencing data that has already been demultiplexed and imported into a QIIME 2 Artifact.
 Because sequence data can be delivered to you in many different forms, it's not possible to cover the varieties here.
-Instead we refer you to [*How to import data for use with QIIME 2*](https://amplicon-docs.readthedocs.io/en/latest/how-to-guides/how-to-import.html) to learn how to import your data.
-If you want to learn why importing is necessary, refer to [Why importing is necessary](https://amplicon-docs.readthedocs.io/en/latest/explanations/why-importing.html).
+Instead we refer you to [*How to import data for use with QIIME 2*](https://amplicon-docs.readthedocs.io/en/2026.4/how-to-guides/how-to-import/) to learn how to import your data.
+If you want to learn why importing is necessary, refer to [Why importing is necessary](https://amplicon-docs.readthedocs.io/en/2026.4/explanations/why-importing/).
 
 ::::{margin}
 :::{tip}
 You should ask your sequencing center to provide data already demultiplexed.
 In some cases, they may be able to provide a "QIIME 2 demux artifacts".
-If not, ask them to provide a [fastq manifest file](https://amplicon-docs.readthedocs.io/en/latest/how-to-guides/how-to-import.html#import-fastq-manifest) for your sequencing data.
+If not, ask them to provide a [fastq manifest file](https://amplicon-docs.readthedocs.io/en/2026.4/how-to-guides/how-to-import#import-fastq-manifest) for your sequencing data.
 It should be easy for them to generate.
 :::
 ::::
@@ -167,8 +167,8 @@ asv_seqs, asv_table, denoising_stats, base_transition_stats = use.action(
 :::
 
 One of the outputs created by DADA2 is a summary of the denoising run.
-That is generated as an [Artifact](https://amplicon-docs.readthedocs.io/en/latest/explanations/getting-started.html#getting-started-artifacts-and-visualizations), so can't be viewed directly.
-However this is one of many QIIME 2 types that can be [viewed as Metadata](https://use.qiime2.org/en/latest/how-to-guides/artifacts-as-metadata.html) - a very powerful concept that we'll use again later in this tutorial.
+That is generated as an [Artifact](https://amplicon-docs.readthedocs.io/en/2026.4/explanations/getting-started#getting-started-artifacts-and-visualizations), so can't be viewed directly.
+However this is one of many QIIME 2 types that can be [viewed as Metadata](https://use.qiime2.org/en/2026.4/how-to-guides/artifacts-as-metadata/) - a very powerful concept that we'll use again later in this tutorial.
 Learning to view artifacts as Metadata creates nearly infinite possibilities for how you can explore your microbiome data with QIIME 2.
 
 Here, we'll again use the [metadata plugins `tabulate` visualizer](xref:rachis-library-target#q2-action-metadata-tabulate), but this time we'll apply it to the DADA2 statistics.
@@ -192,7 +192,7 @@ Refer back to your [tabulated metadata](#sample-metadata-tabulate-viz): what do 
 :::{exercise} Merging metadata.
 :label: merge-metadata
 If it's annoying to switch back and forth between visualizations to answer the question in the last exercise, you can create a combined tabulation of the metadata.
-Try to do that by adapting the instructions in [*How to merge metadata*](https://use.qiime2.org/en/latest/how-to-guides/merge-metadata.html).
+Try to do that by adapting the instructions in [*How to merge metadata*](https://use.qiime2.org/en/2026.4/how-to-guides/merge-metadata/).
 
 This is also useful if you want to create a large tabular summary describing your samples following analysis, as you can include as many different metadata objects as you'd like in these summaries.
 :::
@@ -272,7 +272,7 @@ I include `_ms2` in the new output names here to remind us that these are filter
 Generally speaking, file names are a convenient place to store information like this, but they're unreliable.
 File names can easily be changed, and therefore could be modified to contain inaccurate information about the data they contain.
 
-Luckily, [QIIME 2's provenance tracking system](https://amplicon-docs.readthedocs.io/en/latest/explanations/getting-started.html#getting-started-provenance) records all of the information that we need about how results were generated.
+Luckily, [QIIME 2's provenance tracking system](https://amplicon-docs.readthedocs.io/en/2026.4/explanations/getting-started#getting-started-provenance) records all of the information that we need about how results were generated.
 We're therefore free to include information like this in file names if it's helpful for us, but we shouldn't ever rely on the file names.
 If in doubt -- and always be in doubt 🕵️‍♀️ -- refer to the data provenance.
 
@@ -472,7 +472,7 @@ We could use that here, but the runtime is too long for our documentation.[^buil
 If you'd like to see this demonstrated, you can refer to the [*Parkinson's Mouse* tutorial](https://docs.qiime2.org/2024.10/tutorials/pd-mice/).
 
 The *de novo* approach is known to generate low quality trees when very short sequences are used as input, but can be used with any phylogenetically informative marker gene (not just 16S).
-If you'd like to see this demonstrated, you can refer to the [*Moving Pictures* tutorial](https://amplicon-docs.readthedocs.io/en/latest/tutorials/moving-pictures.html#generate-a-tree-for-phylogenetic-diversity-analyses).
+If you'd like to see this demonstrated, you can refer to the [*Moving Pictures* tutorial](https://amplicon-docs.readthedocs.io/en/2026.4/tutorials/moving-pictures#generate-a-tree-for-phylogenetic-diversity-analyses).
 
 For those reasons, we're going to skip building phylogenetic trees and instead use an analog of phylogenetic diversity metrics here.
 
@@ -815,7 +815,7 @@ In the meantime, here are some suggestions to continue your learning:
 
 We're also in the process of refactoring our statistical methods for assessing alpha and beta diversity across groups, using the new [stats plugin](xref:rachis-library-target#q2-plugin-stats).
 We're therefore holding off on integrating statistical analysis until we have that ready.
-In the meantime, you can refer to you can refer to the [*Moving Pictures*](https://amplicon-docs.readthedocs.io/en/latest/tutorials/moving-pictures.html) tutorial, as well as the [sample-classifier](https://docs.qiime2.org/2024.10/tutorials/sample-classifier/) and [longitudinal](https://docs.qiime2.org/2024.10/tutorials/longitudinal/) tutorials.
+In the meantime, you can refer to you can refer to the [*Moving Pictures*](https://amplicon-docs.readthedocs.io/en/2026.4/tutorials/moving-pictures) tutorial, as well as the [sample-classifier](https://docs.qiime2.org/2024.10/tutorials/sample-classifier/) and [longitudinal](https://docs.qiime2.org/2024.10/tutorials/longitudinal/) tutorials.
 
 ## Replay provenance (work in progress!)
 
@@ -839,9 +839,9 @@ qiime tools replay-provenance \
 If you need help, head over to the [QIIME 2 Forum](https://forum.qiime2.org).
 
 
-[^build-requirements-exceed-resources]: The resource requirements exceed those provided by the [*Read the Docs* (RTD) build system](https://docs.readthedocs.com/platform/stable/builds.html#build-resources), which is used to build the documentation that you're reading.
+[^build-requirements-exceed-resources]: The resource requirements exceed those provided by the [*Read the Docs* (RTD) build system](https://docs.readthedocs.com/platform/stable/builds#build-resources), which is used to build the documentation that you're reading.
  RTD provides systems with 7GB of RAM for 30 minutes maximum to build documentation.
  That's a very reasonable (and generous) allocation for building documentation, so we choose to work within those contraints rather than creating our own documentation build system like we've had in the past (e.g., for `https://docs.qiime2.org`).
-[^iab-database-searching]: kmerization of biological sequences is described in the [*Database Searching* chapter of *An Introduction to Applied Bioinformatics*](https://readiab.org/database-searching.html#kmer-content).
-[^iab-machine-learning]: This process is discussed in the [*Machine Learning in Bioinformatics* chapter of *An Introduction to Applied Bioinformatics*](https://readiab.org/machine-learning.html#unsupervised-learning).
+[^iab-database-searching]: kmerization of biological sequences is described in the [*Database Searching* chapter of *An Introduction to Applied Bioinformatics*](https://readiab.org/database-searching#kmer-content).
+[^iab-machine-learning]: This process is discussed in the [*Machine Learning in Bioinformatics* chapter of *An Introduction to Applied Bioinformatics*](https://readiab.org/machine-learning#unsupervised-learning).
 [^forum-diversity-metrics]: Learn more about the available metrics in [this QIIME 2 Forum post](https://forum.qiime2.org/t/alpha-and-beta-diversity-explanations-and-commands/2282).
