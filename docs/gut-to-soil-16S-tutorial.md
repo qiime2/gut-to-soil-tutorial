@@ -260,9 +260,14 @@ What is the taxonomy associated with the most frequently observed feature, based
 
 ### Filtering features from a feature table
 
+:::{tip} Performance tip 🏃
+When working with large feature tables, this filtering step can *dramatically* reduce memory (RAM) requirements for analyses that load the feature table into memory.
+This can be particularly helpful when computing kmer-based diversity metrics, which we'll get to later in this tutorial. 
+This filtering step will also speed up processes that operate on each feature in the feature table (such as taxonomic annotation).
+:::
+
 If you review the tabulated feature sequences, or the feature detail table of the feature table summary, you'll notice that there are many sequences that are observed in only a single sample.
 Let's filter those out to reduce the number of sequences we're working with.
-This will speed up steps that operate on each feature in the feature table (such as taxonomic annotation), and when working with data from large sequencing runs this can *dramatically* reduce the system memory requirements when working with the full feature table (this can be particularly helpful when computing kmer-based diversity metrics). 
 
 This is a two-step process.
 First we filter our feature table, and then we use the new feature table to filter our sequences to only the ones that are contained in the new table.
