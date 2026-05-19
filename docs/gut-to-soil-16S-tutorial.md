@@ -745,7 +745,7 @@ Taxonomic annotations can optionally be provided here: this helps make ASVs ids 
 :::{describe-usage}
 use.action(
     use.UsageAction(plugin_id='composition',
-                    action_id='ancombc2_visualizer'),
+                    action_id='da_barplot'),
     use.UsageInputs(data=ancombc2_results,
                     taxonomy=taxonomy),
     use.UsageOutputNames(visualization='ancombc2-barplot'))
@@ -801,7 +801,7 @@ Notice that in this case we're not providing the taxonomy, because we've already
 :::{describe-usage}
 use.action(
     use.UsageAction(plugin_id='composition',
-                    action_id='ancombc2_visualizer'),
+                    action_id='da_barplot'),
     use.UsageInputs(data=genus_ancombc2_results),
     use.UsageOutputNames(visualization='genus-ancombc2-barplot'))
 :::
