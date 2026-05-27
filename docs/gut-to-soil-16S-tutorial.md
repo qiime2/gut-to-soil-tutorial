@@ -489,6 +489,42 @@ Now that we have those (with the exception of the tree, [which we won't use here
 This is where it starts to get fun! ⛷️
 
 (gut-to-soil:kmer-based-diversity-analysis)=
+### Alpha rarefaction plotting
+
+In this section we'll explore alpha diversity as a function of sampling depth using the [`alpha-rarefaction` action](xref:rachis-library-target#q2-action-diversity-alpha-rarefaction).
+This visualizer computes one or more alpha diversity metrics at multiple sampling depths, in steps between 1 (optionally controlled with `min-depth`) and the value provided as `max-depth`.
+At each sampling depth step, 10 rarefied tables will be generated, and the diversity metrics will be computed for all samples in the tables.
+The number of iterations (rarefied tables computed at each sampling depth) can be controlled with the `iterations` parameter.
+Average diversity values will be plotted for each sample at each even sampling depth, and samples can be grouped based on metadata in the resulting visualization if sample metadata is provided.
+
+The value that you provide for `max-depth` should be determined by reviewing the "Frequency per sample" information presented in the `asv-table-ms2.qzv` file.
+In general, choosing a value that is somewhere around the median frequency seems to work well, but you may want to increase that value if the lines in the resulting rarefaction plot don't appear to be leveling out, or decrease that value if you seem to be losing many of your samples due to low total frequencies closer to the minimum sampling depth than the maximum sampling depth.
+
+:::{describe-usage}
+use.action(
+    use.UsageAction(plugin_id='diversity',
+                    action_id='alpha_rarefaction'),
+    use.UsageInputs(table=asv_table_ms2,
+                    max_depth=260,
+                    metadata=sample_metadata),
+    use.UsageOutputNames(visualization='alpha_rarefaction'))
+:::
+
+The visualization will have two plots.
+The top plot is an alpha rarefaction plot, and is primarily used to determine if the richness of the samples has been fully observed or sequenced.
+If the lines in the plot appear to "level out" (i.e., approach a slope of zero) at some sampling depth along the x-axis, that suggests that collecting additional sequences beyond that sampling depth would not be likely to result in the observation of additional features.
+If the lines in the plot don't level out, this may be because the richness of the samples hasn't been fully observed yet (because too few sequences were collected), or it could be an indicator that a lot of sequencing error remains in the data (which is being mistaken for novel diversity).
+
+The bottom plot in this visualization is important when grouping samples by metadata.
+It illustrates the number of samples that remain in each group when the feature table is rarefied to each sampling depth.
+If a given sampling depth `d` is larger than the total frequency of a sample `s` (i.e., the number of sequences that were obtained for sample `s`), it is not possible to compute the diversity metric for sample `s` at sampling depth `d`.
+If many of the samples in a group have lower total frequencies than `d`, the average diversity presented for that group at `d` in the top plot will be unreliable because it will have been computed on relatively few samples.
+When grouping samples by metadata, it is therefore essential to look at the bottom plot to ensure that the data presented in the top plot is reliable.
+
+:::{exercise} Relative richness.
+When grouping samples by "SampleType" and viewing the alpha rarefaction plot for the "observed_features" metric, which sample types (if any) appear to exhibit sufficient diversity coverage (i.e., their rarefaction curves level out)?
+:::
+
 ### Kmer-based diversity analysis
 
 As mentioned above, we're going to skip building phylogenetic trees and instead use an analog of phylogenetic diversity metrics here.
@@ -620,41 +656,7 @@ Which diversity axes (PCoA or alpha diversity results) appear to be correlated w
 Which sample has the lowest microbiome richness?
 :::
 
-### Alpha rarefaction plotting
 
-In this section we'll explore alpha diversity as a function of sampling depth using the[`alpha-rarefaction` action](xref:rachis-library-target#q2-action-diversity-alpha-rarefaction).
-This visualizer computes one or more alpha diversity metrics at multiple sampling depths, in steps between 1 (optionally controlled with `min-depth`) and the value provided as `max-depth`.
-At each sampling depth step, 10 rarefied tables will be generated, and the diversity metrics will be computed for all samples in the tables.
-The number of iterations (rarefied tables computed at each sampling depth) can be controlled with the `iterations` parameter.
-Average diversity values will be plotted for each sample at each even sampling depth, and samples can be grouped based on metadata in the resulting visualization if sample metadata is provided.
-
-The value that you provide for `max-depth` should be determined by reviewing the "Frequency per sample" information presented in the `asv-table-ms2.qzv` file.
-In general, choosing a value that is somewhere around the median frequency seems to work well, but you may want to increase that value if the lines in the resulting rarefaction plot don't appear to be leveling out, or decrease that value if you seem to be losing many of your samples due to low total frequencies closer to the minimum sampling depth than the maximum sampling depth.
-
-:::{describe-usage}
-use.action(
-    use.UsageAction(plugin_id='diversity',
-                    action_id='alpha_rarefaction'),
-    use.UsageInputs(table=asv_table_ms2,
-                    max_depth=260,
-                    metadata=sample_metadata),
-    use.UsageOutputNames(visualization='alpha_rarefaction'))
-:::
-
-The visualization will have two plots.
-The top plot is an alpha rarefaction plot, and is primarily used to determine if the richness of the samples has been fully observed or sequenced.
-If the lines in the plot appear to "level out" (i.e., approach a slope of zero) at some sampling depth along the x-axis, that suggests that collecting additional sequences beyond that sampling depth would not be likely to result in the observation of additional features.
-If the lines in the plot don't level out, this may be because the richness of the samples hasn't been fully observed yet (because too few sequences were collected), or it could be an indicator that a lot of sequencing error remains in the data (which is being mistaken for novel diversity).
-
-The bottom plot in this visualization is important when grouping samples by metadata.
-It illustrates the number of samples that remain in each group when the feature table is rarefied to each sampling depth.
-If a given sampling depth `d` is larger than the total frequency of a sample `s` (i.e., the number of sequences that were obtained for sample `s`), it is not possible to compute the diversity metric for sample `s` at sampling depth `d`.
-If many of the samples in a group have lower total frequencies than `d`, the average diversity presented for that group at `d` in the top plot will be unreliable because it will have been computed on relatively few samples.
-When grouping samples by metadata, it is therefore essential to look at the bottom plot to ensure that the data presented in the top plot is reliable.
-
-:::{exercise} Relative richness.
-When grouping samples by "SampleType" and viewing the alpha rarefaction plot for the "observed_features" metric, which sample types (if any) appear to exhibit sufficient diversity coverage (i.e., their rarefaction curves level out)?
-:::
 
 ### Taxonomic analysis
 
