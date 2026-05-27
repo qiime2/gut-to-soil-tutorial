@@ -488,7 +488,7 @@ As mentioned above, we tend to think of "downstream" analysis as beginning with 
 Now that we have those (with the exception of the tree, [which we won't use here](#phylogenetic-tree-building)), let's jump in.
 This is where it starts to get fun! ⛷️
 
-(gut-to-soil:kmer-based-diversity-analysis)=
+
 ### Alpha rarefaction plotting
 
 In this section we'll explore alpha diversity as a function of sampling depth using the [`alpha-rarefaction` action](xref:rachis-library-target#q2-action-diversity-alpha-rarefaction).
@@ -525,6 +525,7 @@ When grouping samples by metadata, it is therefore essential to look at the bott
 When grouping samples by "SampleType" and viewing the alpha rarefaction plot for the "observed_features" metric, which sample types (if any) appear to exhibit sufficient diversity coverage (i.e., their rarefaction curves level out)?
 :::
 
+(gut-to-soil:kmer-based-diversity-analysis)=
 ### Kmer-based diversity analysis
 
 As mentioned above, we're going to skip building phylogenetic trees and instead use an analog of phylogenetic diversity metrics here.
