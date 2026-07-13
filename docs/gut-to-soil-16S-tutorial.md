@@ -76,7 +76,7 @@ If you want to learn why importing is necessary, refer to [Why importing is nece
 ::::{margin}
 :::{tip}
 You should ask your sequencing center to provide data already demultiplexed.
-In some cases, they may be able to provide a "QIIME 2 demux artifacts".
+In some cases, they may be able to provide a "QIIME 2 demux artifact".
 If not, ask them to provide a [fastq manifest file](https://amplicon-docs.readthedocs.io/en/latest/how-to-guides/how-to-import.html#import-fastq-manifest) for your sequencing data.
 It should be easy for them to generate.
 :::
