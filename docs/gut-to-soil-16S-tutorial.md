@@ -355,15 +355,13 @@ Training a taxonomy classifier can be a slow and memory-intensive step, but the 
 First, we'll obtain the sequence data and the associated taxonomy annotations.
 
 :::{describe-usage}
-reference_sequences = use.init_artifact_from_url(
-    'reference-sequences',
-    'https://docs.qiime2.org/2024.10/data/tutorials/feature-classifier/85_otus.qza')
-:::
-
-:::{describe-usage}
-reference_taxonomy = use.init_artifact_from_url(
-    'reference-taxonomy',
-    'https://docs.qiime2.org/2024.10/data/tutorials/feature-classifier/ref-taxonomy.qza')
+reference_taxonomy, reference_sequences = use.action(
+    use.UsageAction(plugin_id='rescript',
+                    action_id='get_gtdb_data'),
+    use.UsageInputs(version='202.0',
+                    db_type='SpeciesReps'),
+    use.UsageOutputNames(gtdb_taxonomy='reference-taxonomy',
+                         gtdb_sequences='reference-sequences'))
 :::
 
 ::::{note} Optional: viewing the taxonomy reference data
@@ -374,7 +372,7 @@ If you'd like to inspect the reference data before using it (never a bad idea!) 
 :::{describe-usage}
 reference_taxonomy_collection = use.construct_artifact_collection(
     'reference-taxonomy-collection',
-    {'Greengenes_13_8_85p_OTUs': reference_taxonomy}
+    {'GTDB_r202_SpeciesReps': reference_taxonomy}
 )
 
 use.action(
@@ -397,7 +395,9 @@ classifier, = use.action(
     use.UsageAction(plugin_id='feature_classifier',
                     action_id='fit_classifier_naive_bayes'),
     use.UsageInputs(reference_reads=reference_sequences,
-                    reference_taxonomy=reference_taxonomy),
+                    reference_taxonomy=reference_taxonomy,
+                    feat_ext__n_features=2048,
+                    classify__chunk_size=2000),
     use.UsageOutputNames(classifier='suboptimal-16S-rRNA-classifier'))
 :::
 
