@@ -440,7 +440,7 @@ asv_frequencies_ms2_as_md = use.view_as_metadata('asv_frequencies',
                                                  asv_frequencies_ms2)
 
 taxonomy_collection = use.construct_artifact_collection(
-    'taxonomy_collection', {'GTDB_r202_Bacteria_SpeciesReps': taxonomy}
+    'taxonomy_collection', {'GTDB_r202_SpeciesReps': taxonomy}
 )
 
 use.action(
@@ -858,4 +858,13 @@ If you need help, head over to the [QIIME 2 Forum](https://forum.qiime2.org).
 [^iab-database-searching]: kmerization of biological sequences is described in the [*Database Searching* chapter of *An Introduction to Applied Bioinformatics*](https://readiab.org/database-searching.html#kmer-content).
 [^iab-machine-learning]: This process is discussed in the [*Machine Learning in Bioinformatics* chapter of *An Introduction to Applied Bioinformatics*](https://readiab.org/machine-learning.html#unsupervised-learning).
 [^forum-diversity-metrics]: Learn more about the available metrics in [this QIIME 2 Forum post](https://forum.qiime2.org/t/alpha-and-beta-diversity-explanations-and-commands/2282).
-[^classifier-training-defaults]: TODO: add this text.
+[^classifier-training-defaults]: The two non-default parameters passed to `fit-classifier-naive-bayes` here are `feat_ext__n_features` (default 8192) and `classify__chunk_size` (default 20000).
+ `feat_ext__n_features` sets the size of the hashed k-mer feature space: every 7-mer in a reference sequence is hashed into one of this many buckets, so a smaller value means more distinct k-mers share a bucket and the classifier has less information to separate similar taxa.
+ `classify__chunk_size` sets how many reference sequences are passed to the classifier at a time during training; each chunk is expanded into a dense sequences × classes label matrix, so this controls a transient memory peak during training.
+ `chunk_size` has no effect on the resulting classifier: models trained with different chunk sizes are identical.
+ `n_features` does affect the classifier.
+ With this reference, reducing it from 8192 to 2048 roughly halves the memory needed to train and to run the classifier, but on the sequences in this tutorial it also reduces the number of ASVs classified to genus level by about a quarter and to species level by about half; the assignments that are made agree with the default classifier's, so the cost is resolution rather than error.
+ When training your own classifier, leave both parameters at their defaults unless you run out of memory.
+ If you do, note that reducing `chunk_size` alone made little difference to peak memory in our testing; the memory saving comes mainly from `n_features`, and the two together reduce it further.
+ Reducing the number of classes (for example, by collapsing the reference taxonomy to genus level with `rescript edit-taxonomy`) or using a pre-trained classifier from the [QIIME 2 Library](https://library.qiime2.org) are alternatives that avoid this trade-off.
+ This footnote text, the parameter modifications made for classifier training in the tutorial, and the analyses described here were prepared with AI assistance.
