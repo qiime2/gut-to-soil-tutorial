@@ -6,7 +6,7 @@
 In this tutorial you'll learn an end-to-end microbiome marker-gene data science workflow, building on data presented in [Meilander *et al.* (2024): Upcycling Human Excrement: The Gut Microbiome to Soil Microbiome Axis](https://doi.org/10.1093/ismeco/ycaf089).
 The data used here is a subset (a single sequencing run) of that generated for the paper, specifically selected so that this tutorial can be run quickly on a personal computer.
 The full data set for the paper can be found in [the study's Artifact Repository](https://doi.org/10.5281/zenodo.13887456).
-In the final step (**not yet written, as of 17 April 2025**), you'll learn how to adapt the workflow for use in analyzing your own data using [Provenance Replay](https://doi.org/10.1371/journal.pcbi.1011676).
+In the final step (**not yet written, as of 30 August 2026**), you'll learn how to adapt the workflow for use in analyzing your own data using [Provenance Replay](https://doi.org/10.1371/journal.pcbi.1011676).
 
 The data used in this tutorial was generated using the [Earth Microbiome Project protocol](https://doi.org/10.1038/ismej.2012.8).
 Specifically, the hypervariable region 4 (V4) of the 16S rRNA gene was amplified using the F515-R806 primers - a broad-coverage primer pair for Bacteria that also amplifies some Archaea.
@@ -262,7 +262,7 @@ What is the taxonomy associated with the most frequently observed feature, based
 
 :::{tip} Performance tip 🏃
 When working with large feature tables, this filtering step can *dramatically* reduce memory (RAM) requirements for analyses that load the feature table into memory.
-This can be particularly helpful when computing kmer-based diversity metrics, which we'll get to later in this tutorial. 
+This can be particularly helpful when computing kmer-based diversity metrics, which we'll get to later in this tutorial.
 This filtering step will also speed up processes that operate on each feature in the feature table (such as taxonomic annotation).
 :::
 
@@ -337,12 +337,16 @@ Before we complete our upstream analysis steps, we'll generate taxonomic annotat
 
 (suboptimal-classifier-explanation)=
 :::{warning}
-The taxonomic classifier used here is trained on Greengenes 13_8, which [is an outdated reference database](https://forum.qiime2.org/t/introducing-greengenes2-2022-10/25291).
-The reason we use it here is because the reference data is relatively small, so classification can be run quickly on most modern computers with this classifier.
+The taxonomic classifier used here is trained on reference sequences and taxonomy from [GTDB](https://gtdb.ecogenomic.org/) 202.0, which is an old version of the GTDB reference database.
+We use it here because the reference data is relatively small, enabling classifier training and application to run on most modern computers.
+For comparison, GTDB r202 contains 32,884 sequences (31,319 Bacteria + 1,565 Archaea) while GTDB r232 (the most recent version, as of this writing on 30 August 2026) contains 93,770 sequences (88,481 Bacteria + 5,289 Archaea).
+
+We additionally change two parameters from their default settings during training[^classifier-training-defaults] to allow the classifier to be trained with less memory.
+All of these changes are specifically made because this is a tutorial: we want users to be able to easily follow along on their personal computer, and we need our tutorial to build within the constraints of our build system[^build-requirements-exceed-resources].
 To remind readers that they shouldn't use this classifier in practice, we're going to refer to the one we build here as our *suboptimal 16S rRNA classifier*.
 
 When you're ready to work on your own data, one of the choices you'll need to make is what classifier to use for your data.
-You can discover pre-trained classifiers the QIIME 2 Library [*Resources* page](https://library.qiime2.org/data-resources).
+You can discover pre-trained classifiers on the QIIME 2 Library [*Resources* page](https://library.qiime2.org/data-resources), including for the most recent versions of GTDB and SILVA.
 If you don't find a classifier that will work for you there, you may be able to [find one on the Forum](https://forum.qiime2.org/tag/taxonomy), or you can learn how to train your own [by referencing the RESCRIPt documentation](https://github.com/bokulich-lab/RESCRIPt).
 
 We strongly recommend the use of environment-weighted classifiers, as described in [Kaehler et al., (2019)](https://doi.org/10.1038/s41467-019-12669-6), and you can find builds of these on the [*Resources* page](https://library.qiime2.org/data-resources).
@@ -350,7 +354,7 @@ We strongly recommend the use of environment-weighted classifiers, as described 
 
 #### Training our (suboptimal) 16S rRNA taxonomy classifier
 Here we are going to train our [suboptimal](#suboptimal-classifier-explanation) 16S rRNA classifier.
-Training a taxonomy classifier can be a slow and memory-intensive step, but the suboptimal classifier is fast to train because we are using the reference sequences following clustering at 85% similarity, which gives us a relatively small reference dataset (about 5000 sequences).
+Training a taxonomy classifier can be a slow and memory-intensive step, and this is one of the slower steps in this tutorial.
 
 First, we'll obtain the sequence data and the associated taxonomy annotations.
 
@@ -436,7 +440,7 @@ asv_frequencies_ms2_as_md = use.view_as_metadata('asv_frequencies',
                                                  asv_frequencies_ms2)
 
 taxonomy_collection = use.construct_artifact_collection(
-    'taxonomy_collection', {'Greengenes_13_8': taxonomy}
+    'taxonomy_collection', {'GTDB_r202_Bacteria_SpeciesReps': taxonomy}
 )
 
 use.action(
@@ -474,7 +478,7 @@ In addition to counts of features per sample (i.e., the data in the `FeatureTabl
 The amplicon distribution offers a few ways to build these trees, including a reference-based approach in the [fragment-insertion plugin](xref:rachis-library-target#q2-plugin-fragment-insertion) and *de novo* (i.e., reference-free) approaches in the [phylogeny plugin](xref:rachis-library-target#q2-plugin-phylogeny).
 
 The reference based approach, by default, is specific to 16S rRNA marker gene analysis.
-We could use that here, but the runtime is too long for our documentation.[^build-requirements-exceed-resources]
+It is relevant to this data, but its memory usage exceeds the limits of our build system.[^build-requirements-exceed-resources]
 If you'd like to see this demonstrated, you can refer to the [*Parkinson's Mouse* tutorial](https://docs.qiime2.org/2024.10/tutorials/pd-mice/).
 
 The *de novo* approach is known to generate low quality trees when very short sequences are used as input, but can be used with any phylogenetically informative marker gene (not just 16S).
@@ -686,7 +690,7 @@ Additionally, kmerization of our data is a tool used for computing diversity met
 :::
 
 :::{exercise} Taxa bar plots.
-Visualize the samples at *Level 2* (which corresponds to the phylum level in this analysis), and then sort the samples by `SampleType`.
+Visualize the samples at the phylum level, and then sort the samples by `SampleType`.
 What are the dominant phyla in each in `SampleType`?
 :::
 
@@ -772,7 +776,7 @@ How would you use this to collapse our ASV table at the genus level, and then ru
 ::::{solution} ancombc2-genera
 :class: dropdown
 
-To collapse our ASVs into genera (i.e. level 6 of the Greengenes taxonomy), we can use the following command.
+To collapse our ASVs into genera (i.e. level 6 of the GTDB 202.0 taxonomy), we can use the following command.
 
 :::{describe-usage}
 genus_table_ms2_dominant_sample_types, = use.action(
@@ -847,9 +851,11 @@ qiime tools replay-provenance \
 If you need help, head over to the [QIIME 2 Forum](https://forum.qiime2.org).
 
 
-[^build-requirements-exceed-resources]: The resource requirements exceed those provided by the [*Read the Docs* (RTD) build system](https://docs.readthedocs.com/platform/stable/builds.html#build-resources), which is used to build the documentation that you're reading.
+[^build-requirements-exceed-resources]: The [*Read the Docs* (RTD) build system](https://docs.readthedocs.com/platform/stable/builds.html#build-resources) is used to build the documentation that you're reading.
  RTD provides systems with 7GB of RAM for 30 minutes maximum to build documentation.
  That's a very reasonable (and generous) allocation for building documentation, so we choose to work within those contraints rather than creating our own documentation build system like we've had in the past (e.g., for `https://docs.qiime2.org`).
+ This also keeps our tutorial runtime and memory usage bounded, helping to ensure that users can run them on their own computers.
 [^iab-database-searching]: kmerization of biological sequences is described in the [*Database Searching* chapter of *An Introduction to Applied Bioinformatics*](https://readiab.org/database-searching.html#kmer-content).
 [^iab-machine-learning]: This process is discussed in the [*Machine Learning in Bioinformatics* chapter of *An Introduction to Applied Bioinformatics*](https://readiab.org/machine-learning.html#unsupervised-learning).
 [^forum-diversity-metrics]: Learn more about the available metrics in [this QIIME 2 Forum post](https://forum.qiime2.org/t/alpha-and-beta-diversity-explanations-and-commands/2282).
+[^classifier-training-defaults]: TODO: add this text.
