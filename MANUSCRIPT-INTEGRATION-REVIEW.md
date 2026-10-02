@@ -26,6 +26,8 @@ Every `% TODO(greg)` comment in the page source corresponds to an item below.
 - The Conclusion's "Now that you've completed this tutorial" paragraph moved ahead of a new H3, "A final word on the tutorial data", over the HEC paragraph. The request said "A final work"; "word" was assumed.
 - Plugin-link hovers (`xref:rachis-library-target#...`) showing "Loading..." indefinitely: the library site answers the hover request with a redirect to `amplicon-docs.readthedocs.io/en/stable/references.plugins.<plugin>.json`; whether that redirect target exists and allows cross-origin reads decides it (see the session notes of 2026-10-02). It is a library/amplicon-docs infrastructure matter, not this page's markup, and the same links were on the page before the migration.
 
+- A "Citation" note at the top of the page gives an "In review, 2026" citation with the full author list, in the manuscript's author order; the lead-in sentence and the omission of the publisher's name are Claude's choices.
+
 ## To check in the built site
 
 - The two dropdowns ("The data" near the top, "Background: alpha and beta diversity metrics" before the kmer-diversity section) contain H3 headings; check how those appear in the contents sidebar and whether clicking one opens the dropdown.
