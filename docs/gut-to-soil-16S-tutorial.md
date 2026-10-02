@@ -1,5 +1,5 @@
 (gut-to-soil-16S-tutorial)=
-# Gut-to-soil axis 16S rRNA analysis tutorial 💩🌱
+# Gut-to-soil microbiome axis 16S rRNA analysis tutorial 💩🌱
 
 We'll now begin working through a microbiome data analysis, beginning with installation of QIIME 2.
 As we progress, you can run the commands from the tutorial on your own computer and you will be presented with exercises to encourage you to explore and interpret the results of the analysis steps.
@@ -1433,6 +1433,13 @@ Microbiomes drive the HEC reaction, and we postulate that HEC microbiome science
 As you start your journey in microbiome science we urge you to keep HEC systems in mind.
 Because of the scale of problems that we face, even small advances can have far-reaching impacts.
 
+:::{note} Citation
+This tutorial can be cited as:
+
+Caporaso JG, Herman C, Wood C, Gehret L, Simard A, Bolyen E, Dubois B, Bokulich NA, Meilander J.
+Microbiome marker gene analysis with QIIME 2: the "gut-to-soil microbiome axis" tutorial.
+In review, 2026.
+:::
 
 [^iab-database-searching]: kmerization of biological sequences is described in the [*Database Searching* chapter of *An Introduction to Applied Bioinformatics*](https://readiab.org/database-searching.html#kmer-content).
 [^iab-machine-learning]: This process is discussed in the [*Machine Learning in Bioinformatics* chapter of *An Introduction to Applied Bioinformatics*](https://readiab.org/machine-learning.html#unsupervised-learning).
