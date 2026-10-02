@@ -1,0 +1,6 @@
+:::{figure} figures/boots-kmer-diversity.svg
+:label: fig-boots-kmer-diversity
+:alt: `kmer-diversity` workflow in q2-boots
+
+**`kmer-diversity` workflow in q2-boots.** The kmer-diversity **Pipeline** integrates the kmer diversity approach with repeated rarefying for rarefaction- and relatedness-based diversity metric computation. Each ASV table is sampled to an even sampling depth ([](#fig-even-sampling)) `n` times (panel **a**). Each of the `n` rarefied ASV tables is then kmerized ([](#fig-kmer-features)), and identity-based alpha diversity ([](#fig-alpha-diversity)) and beta-diversity ([](#fig-beta-diversity)) metrics are computed on each kmer table. This results in `n` `SampleData[AlphaDiversity]` Artifacts per alpha diversity metric (panel **b**) which are subsequently averaged to generate the final output (panel **c**), and `n` `DistanceMatrix` Artifacts per beta diversity metric (panel **d**) which are subsequently averaged to generate the final output (panel **e**). The Pipeline yields one `SampleData[AlphaDiversity]` Artifact (panel **c**) and one `DistanceMatrix` Artifact (panel **e**) per diversity metric as output. Those averaged artifacts can be used in any downstream work that operates on `SampleData[AlphaDiversity]` or `DistanceMatrix` artifacts.
+:::
