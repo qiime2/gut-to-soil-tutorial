@@ -1,0 +1,6 @@
+:::{figure} figures/differential-abundance.svg
+:label: fig-differential-abundance
+:alt: Diverging barplot illustrating differential abundance of features across sample categories
+
+**Diverging barplot illustrating differential abundance of features across sample categories.** A common way to explore which features differ in their abundance across sample categories is with a diverging barplot. These generally focus on a reference group (Human Excrement Compost, or HEC, in this example) and compare another group to that. Here, Human Excrement (HE) is compared to HEC in panel **a**, and Food Compost is compared to HEC in panel **b**. The green bars highlight features that are present in higher abundance than in the reference group, while the red bars illustrate features that are present in lower abundance than in the reference group. Typically, these should be filtered by multiple-comparisons-corrected p-values (i.e., q-values). (Note: the results presented in this figure were not computed with ANCOM-BC2, unlike the data in the tutorial, because the constructed data set is too small for ANCOM-BC2 to be applied.)
+:::

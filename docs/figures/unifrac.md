@@ -1,0 +1,6 @@
+:::{figure} figures/unifrac.svg
+:label: fig-unifrac
+:alt: Beta diversity with UniFrac
+
+**Beta diversity with UniFrac.** UniFrac is an approach for integrating relatedness in beta diversity metrics. Like Faith's PD, it leverages branch lengths, but this time focusing on each pair of samples in the data set. Panel **a** illustrates this for samples `e375` (blue) and `d419` (green). The branch length that is present in only one of the two samples (where there is only a single colored trace in panel **a**, such as the branches leading to ASVs 1–3 and ASV10) is referred to as the unique branch length. The branch length that is present in either of the two samples (where there are one or two colored traces in panel **a**) is referred to as the observed branch length. The unique branch length is divided by the observed branch length, yielding the **uni**que **frac**tion of the observed branch length for the pair of samples (from which UniFrac derives its name). Unweighted UniFrac (panels **b** and **c**) considers only presence/absence of features, while Weighted UniFrac (panels **d** and **e**) weights branches based on feature abundances.
+:::
