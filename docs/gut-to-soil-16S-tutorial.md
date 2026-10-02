@@ -48,6 +48,7 @@ As such, most buckets don't have dense temporal information but Bucket 5 is the 
 We therefore primarily focus on the cross-sectional aspects of data analysis in this tutorial, though you can visualize the time series in Bucket 5 with this subset; future longitudinal tutorials will be developed on different subsets of this study data and from metagenomic and metatranscriptomic data generated in ongoing HEC projects.
 No EMP500 soils are used in this tutorial, so the FLWC (referred to as "Food Compost" in the study metadata) samples will serve as the reference samples here.
 
+(gut-to-soil-tutorial:constructed-data)=
 ### Constructed data for figures
 
 In addition to the tutorial data, beginning with [](#fig-sample-metadata-study) we'll follow a constructed example dataset through the analysis to enable visualization of microbiome data as it progresses through the workflow that we're illustrating.
@@ -132,7 +133,7 @@ Visualizations can also be viewed by loading them with [`rachis-view`](https://v
 % TODO(greg): "Try this as well by right clicking on the sample-metadata.qzv file in the file browser and selecting "Download"." is JupyterLab-specific and was dropped here.
 Navigate to `rachis-view` in a web browser, and drag and drop the visualization that was downloaded.
 
-[](#fig-sample-metadata-study) presents a view of sample metadata for the [constructed dataset](#gut-to-soil-tutorial:data) described above.
+[](#fig-sample-metadata-study) presents a view of sample metadata for the [constructed dataset](#gut-to-soil-tutorial:constructed-data) described above.
 These samples are not real, but rather represent a few samples that we'll use in the figures throughout the tutorial to assist readers with visualizing the data we are working with.
 In your interactive tabulated view of the metadata, explore the metadata columns that are presented in [](#fig-sample-metadata-study).
 
@@ -157,7 +158,7 @@ Paired-end read data means that for every sequence read in your dataset you have
 In demultiplexed paired-end read data, you'll generally start with two fastq files per sample, one for the forward read, and one for the reverse read.
 For QIIME 2 to work with these data, it needs to know which of your fastq files contains the forward reads and which contains the reverse reads for each sample.
 For importing these data into QIIME 2, we generally recommend the use of a fastq manifest file which maps the sample identifier to the forward and reverse read file paths.
-[](#fig-fastq-manifest) presents an illustration of a fastq manifest file alongside four example fastq files.
+[](#fig-fastq-manifest) presents an illustration of a fastq manifest file alongside two example fastq files.
 Like in [](#fig-sample-metadata-study), these are not real data but rather generated for illustrative purposes.
 
 :::{include} figures/fastq-manifest.md
@@ -505,6 +506,7 @@ The result of this process is a `TaxonomicClassifier` artifact ([](#fig-referenc
 :::{include} figures/reference-database.md
 :::
 
+:::{note}
 The `TaxonomicClassifier` artifact is different from any of the artifacts that we've worked with up to this point in an important way.
 All of the artifacts we've worked with so far contain static data in various formats, like fastq or tabular data.
 The `TaxonomicClassifier` artifact contains executable code that is run on your data by the computer where you perform your analysis.
@@ -513,6 +515,7 @@ For example, you should make sure that you trust the person who provided it to y
 As machine learning and artificial intelligence tools become more commonplace in our day-to-day lives, this paradigm is becoming increasingly prevalent: specifically, that the output of an analysis is new computer code (like a model capable of differentiating samples from healthy tissue versus cancer tissue) rather than a static data table (like results from a BLAST search).
 This requires new levels of vigilance to ensure privacy and security when working with research outputs.
 `rachis` Results can be [cryptographically signed](https://use.rachis.org/en/latest/how-to-guides/sign-and-verify-artifacts/#verify-signed-result), which can help you verify that the Artifact or Visualization was provided by the person who you think provided it.
+:::
 
 % TODO(greg): "GTDB version 232.0 (the most recent version, as of this writing)" is a dated remark, left as written.
 The taxonomic classifier used here is trained on reference sequences and taxonomy from GTDB version 202.0, which is an old version of the GTDB reference database [](doi:10.1093/nar/gkab776).
@@ -788,6 +791,7 @@ They could apply an approach like rarefying by selecting at random a 3 m² subpl
 Or, more robustly, they could randomly sample multiple 1 m² subplots from both the desert and rainforest, tally the average number of plant species in each subplot, and compare those averages.
 (Even in this case however, our plant biologist is to be pitied: without multiple replicates per site, any results they come up with are not likely to be very convincing.)
 
+(gut-to-soil-tutorial:selecting-an-even-sampling-depth)=
 ## Selecting an even sampling depth
 
 Selecting an even sampling depth is a balance between discarding sequences and discarding samples.
@@ -1036,7 +1040,7 @@ The following list describes the steps of the `kmer-diversity` Pipeline, with sp
 
 There are three required parameters that the user must set to define this run.
 The most difficult to determine is the value to provide for the `sampling-depth` parameter.
-Refer back to [Selecting an even sampling depth](#selecting-an-even-sampling-depth) above for discussion of this topic.
+Refer back to [Selecting an even sampling depth](#gut-to-soil-tutorial:selecting-an-even-sampling-depth) above for discussion of this topic.
 The user must also provide a value for `n`, the number of iterations of even sampling to run.
 You should expect runtime to increase linearly with the setting of this parameter (such that `n=1000` should take 100 times longer to run than `n=10`).
 We recommend `n=100` as a good starting point.
@@ -1160,17 +1164,6 @@ This is easily observed by plotting observed features versus itself in this scat
 The final analysis step that we'll cover here is identifying individual features that are differentially abundant across sample types in microbiome data, or differential abundance testing, without an *a priori* hypothesis about which feature(s) are differentially abundant.
 This is a challenging problem and an open area of research, in part because the number of features observed is generally a lot larger than the number of samples collected.
 
-::::{margin}
-:::{warning} Differential abundance testing is easy to get wrong! ☠️
-Accurately identifying individual features that are differentially abundant across sample types in microbiome data is a challenging problem and an open area of research, particularly if you don't have an *a priori* hypothesis about which feature(s) are differentially abundant.
-A q-value that suggests that you've identified a feature that is differentially abundant across sample groups should be considered a hypothesis, not a conclusion, and you need new samples to test that new hypothesis.
-
-In addition to the methods contained in the [composition plugin](xref:rachis-library-target#q2-plugin-composition), new approaches for differential abundance testing are regularly introduced.
-It's worth assessing the current state of the field when performing differential abundance testing to see if there are new methods that might be useful for your data.
-If in doubt, consult a statistician.
-:::
-::::
-
 If you have an *a priori* hypothesis about which feature(s) are differentially abundant across your sample groups, you should test that hypothesis with more traditional distribution comparison methods, remembering to correct for multiple comparisons.
 That type of test will be more statistically powerful for testing hypotheses about individual features, but will be too false positive prone to apply to all features in your feature table.
 
@@ -1230,9 +1223,14 @@ False positive corrected p-values (referred to here as q-values) are presented t
 :::{include} figures/differential-abundance.md
 :::
 
-As a word of caution, we generally consider differential abundance analysis on microbiome data to be false positive prone, and as such we recommend that a significant q-value be interpreted as a hypothesis about differential abundance, not a conclusion.
-To test that new hypothesis, you need new samples, at which point it would represent an *a priori* hypothesis about differential abundance, as discussed at the beginning of this section.
-This is quite inconvenient, of course, but it's unavoidable.
+:::{warning} Differential abundance testing is easy to get wrong! ☠️
+Accurately identifying individual features that are differentially abundant across sample types in microbiome data is a challenging problem and an open area of research, particularly if you don't have an *a priori* hypothesis about which feature(s) are differentially abundant.
+A q-value that suggests that you've identified a feature that is differentially abundant across sample groups should be considered a hypothesis, not a conclusion, and you need new samples to test that new hypothesis.
+
+In addition to the methods contained in the [composition plugin](xref:rachis-library-target#q2-plugin-composition), new approaches for differential abundance testing are regularly introduced.
+It's worth assessing the current state of the field when performing differential abundance testing to see if there are new methods that might be useful for your data.
+If in doubt, consult a statistician.
+:::
 
 :::{exercise} Interpreting ANCOM-BC2 results.
 :label: ancombc2-results
@@ -1424,14 +1422,16 @@ To explore some of the more study-specific analyses with the tutorial data prese
      $(find gut-to-soil/ -name '.*' -prune -o -name '*.qzv' -print)
    ```
 
+Now that you've completed this tutorial, you should be able to adapt the commands presented here to perform your own microbiome marker gene data analysis.
+You can find additional information and learning materials in our documentation starting from the [`rachis-library`](https://library.rachis.org), and if you need additional guidance the [QIIME 2 Forum](https://forum.qiime2.org) is an excellent resource containing over 10 years of questions and answers related to QIIME 2 and microbiome data science.
+Thanks for your interest, and we hope to see you on the QIIME 2 Forum!
+
+### A final word on the tutorial data
+
 A final word on the tutorial data used here: adoption of HEC offers broad potential benefits, including for fresh water conservation, reduction of environmental contamination, improvement of public health nearly everywhere on Earth, and the advancement of the technologies that will someday enable human settlement off-Earth.
 Microbiomes drive the HEC reaction, and we postulate that HEC microbiome science and engineering can help optimize composting conditions for efficiency and safety, support bioprospecting for thermostable biotechnologically relevant enzymes (such as those that can degrade problematic waste materials), and inform accessible protocols for ensuring stringent safety standards are consistently met.
 As you start your journey in microbiome science we urge you to keep HEC systems in mind.
 Because of the scale of problems that we face, even small advances can have far-reaching impacts.
-
-Now that you've completed this tutorial, you should be able to adapt the commands presented here to perform your own microbiome marker gene data analysis.
-You can find additional information and learning materials in our documentation starting from the [`rachis-library`](https://library.rachis.org), and if you need additional guidance the [QIIME 2 Forum](https://forum.qiime2.org) is an excellent resource containing over 10 years of questions and answers related to QIIME 2 and microbiome data science.
-Thanks for your interest, and we hope to see you on the QIIME 2 Forum!
 
 
 [^iab-database-searching]: kmerization of biological sequences is described in the [*Database Searching* chapter of *An Introduction to Applied Bioinformatics*](https://readiab.org/database-searching.html#kmer-content).
