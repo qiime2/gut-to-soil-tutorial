@@ -17,6 +17,15 @@ Every `% TODO(greg)` comment in the page source corresponds to an item below.
 - `kmer-diversity` keeps individually named outputs; Exercise 17's path follows.
 - No online-only exercise survives, so exercise numbers match the manuscript's 1 to 17.
 
+## Changes from the 2026-10-02 manual review (applied, confirm in the build)
+
+- "alongside four example fastq files" became "two" (figure 4 shows two read files).
+- The "constructed dataset" link now targets the "Constructed data for figures" heading inside the collapsed "The data" dropdown, so the hover preview should show that subsection rather than the whole dropdown; check the hover, and check what clicking it does while the dropdown is collapsed.
+- The `TaxonomicClassifier` paragraph is a `{note}` admonition.
+- The "Differential abundance testing is easy to get wrong!" warning moved from the margin to the body, replacing the manuscript's "As a word of caution ..." paragraph, which is therefore no longer on the page.
+- The Conclusion's "Now that you've completed this tutorial" paragraph moved ahead of a new H3, "A final word on the tutorial data", over the HEC paragraph. The request said "A final work"; "word" was assumed.
+- Plugin-link hovers (`xref:rachis-library-target#...`) showing "Loading..." indefinitely: the library site answers the hover request with a redirect to `amplicon-docs.readthedocs.io/en/stable/references.plugins.<plugin>.json`; whether that redirect target exists and allows cross-origin reads decides it (see the session notes of 2026-10-02). It is a library/amplicon-docs infrastructure matter, not this page's markup, and the same links were on the page before the migration.
+
 ## To check in the built site
 
 - The two dropdowns ("The data" near the top, "Background: alpha and beta diversity metrics" before the kmer-diversity section) contain H3 headings; check how those appear in the contents sidebar and whether clicking one opens the dropdown.
