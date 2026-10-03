@@ -1,23 +1,24 @@
 (gut-to-soil-16S-tutorial)=
 # Gut-to-soil microbiome axis 16S rRNA analysis tutorial 💩🌱
 
-We'll now begin working through a microbiome data analysis, beginning with installation of QIIME 2.
-As we progress, you can run the commands from the tutorial on your own computer and you will be presented with exercises to encourage you to explore and interpret the results of the analysis steps.
+The gut-to-soil tutorial is intended to be the primary entry point for new users who are interested in working through a full analysis of microbiome data with QIIME 2, before applying it to their own data.
+As we progress, you can run the commands from the tutorial on your own computer and you will be presented with exercises and solutions to encourage you to explore and interpret the results of the analysis steps.
+
+This tutorial assumes two things:
+ * First, that you've read [Getting Started with QIIME 2](https://amplicon-docs.qiime2.org/en/stable/explanations/getting-started/). This will help you understand some of the informatics-y jargon used here. Also, see [the project glossary](http://news.rachis.org/glossary.html) for help with our jargon.
+ * And second, that you have a working installation of QIIME 2 (learn how to install QIIME 2 at https://install.qiime2.org). If you'd rather not install QIIME 2 before reading this document, all outputs that will be generated are linked from this document - so, the QIIME 2 installation is optional, but the tutorial is written assuming that you're running each command (including those in the Exercises) as they are presented.
 
 ::::{margin}
 :::{tip} Why study human excrement composting?
-Get our take on that [here](https://gut-to-soil-tutorial.readthedocs.io/en/latest/why/).
+The [data used in this tutorial](gut-to-soil-tutorial:original-data) is from a study of microbial succession during human excrement composting (HEC).
+Get our take on why this is interesting [here](https://gut-to-soil-tutorial.readthedocs.io/en/latest/why/).
 :::
 ::::
 
-% TODO(greg): the manuscript's Introduction, "Getting started with QIIME 2" and HEC background are not ported.
-% Links to stand in for them: Using QIIME 2 (https://use.rachis.org), the amplicon docs (https://amplicon-docs.qiime2.org), the collapsed "The data" section below and why.md.
-% Choose where (and whether) to point readers at these.
-
-% TODO(greg): the manuscript's "The data" section, collapsed by default (your 2026-10-02 call, replacing a separate page). Its three headings are H3 inside the dropdown; check how they show in the page's contents sidebar.
 (gut-to-soil-tutorial:data)=
-::::{dropdown} The data
+::::{dropdown} The tutorial data sets
 
+(gut-to-soil-tutorial:original-data)=
 ### The original study data
 
 The data used here was originally generated for Meilander et al. (2025): Upcycling Human Excrement: The Gut Microbiome to Soil Microbiome Axis [](doi:10.1093/ismeco/ycaf089), which profiles 15 biological replicates of mesophilic human excrement composting (HEC).
@@ -39,6 +40,7 @@ These samples represented compost produced from pre- and post-consumer food wast
 In addition, sequencing data from 41 soil samples from the Earth Microbiome Project (EMP) "EMP500" were obtained from publicly available Qiita data (study 13114) and used in a pooled analysis (i.e., not resequenced for this project).
 Together the FLWC and soil samples served as reference samples.
 
+(gut-to-soil-tutorial:tutorial-data)=
 ### The data subset for the hands-on tutorial
 
 The data used here is a subset (a single sequencing run) of the Meilander et al. (2025) data, specifically selected so that this tutorial can be run quickly on a personal computer.
@@ -60,12 +62,13 @@ This constructed dataset is intended to provide a way for readers to visualize a
 
 ## Installing QIIME 2
 
-% TODO(greg): the manuscript walks through the 2026.7 workshop Docker container here.
-% Per your call the online tutorial links to the install docs instead; the two sentences below are the manuscript's, trimmed of the JupyterLab specifics.
 Install QIIME 2 by following the [installation documentation](https://install.qiime2.org).
+The screenshots presented in this section were taken against the JupyterLab environment in the QIIME 2 2026.7 workshop Docker container.
+You can use that, or any way of installing QIIME 2 that is covered in the documentation.
 
-In a terminal, type `qiime info`, and press return.
-The result should look like that in [](#fig-qiime-info), which was generated in the QIIME 2 2026.7 workshop Docker container.
+After loading your QIIME 2 environment - either by calling `conda activate ...`, through Docker, or through any other supported approach, in a terminal, type `qiime info`, and press return.
+The result should look like that in the command terminal of [](#fig-qiime-info).
+(Note that the file browser side bar will only be there if you're working in JupyterLab.)
 If you received errors with these steps, we recommend looking for similar posts on the [QIIME 2 Forum](https://forum.qiime2.org), and posting yourself if you don't find relevant troubleshooting information.
 
 :::{include} figures/qiime-info.md
@@ -116,9 +119,9 @@ use.action(
 )
 :::
 
-% TODO(greg): the manuscript sentence here is "This will generate a QIIME 2 Visualization, which can be viewed directly in the Docker container by clicking on it in the file browser side bar. After doing that, your window should look like that in Figure 2." — container-specific; reworded below to name the container as the figure's source.
 This will generate a QIIME 2 [Visualization](xref:rachis-glossary-target#term-visualization).
 [](#fig-metadata-tabulate) shows this Visualization viewed inside the QIIME 2 2026.7 workshop Docker container.
+Visualizations can also be viewed by loading them with [`rachis-view`](https://view.rachis.org) - navigate to `rachis-view` in a web browser, and drag and drop the `sample-metadata.qzv` file.
 
 :::{include} figures/metadata-tabulate.md
 :::
@@ -128,10 +131,6 @@ This will generate a QIIME 2 [Visualization](xref:rachis-glossary-target#term-vi
 You can learn more about viewing Visualizations, including alternatives to `rachis-view` if needed, [in the QIIME 2 documentation](https://use.rachis.org/en/latest/how-to-guides/view-visualizations.html).
 :::
 ::::
-
-Visualizations can also be viewed by loading them with [`rachis-view`](https://view.rachis.org).
-% TODO(greg): "Try this as well by right clicking on the sample-metadata.qzv file in the file browser and selecting "Download"." is JupyterLab-specific and was dropped here.
-Navigate to `rachis-view` in a web browser, and drag and drop the visualization that was downloaded.
 
 [](#fig-sample-metadata-study) presents a view of sample metadata for the [constructed dataset](#gut-to-soil-tutorial:constructed-data) described above.
 These samples are not real, but rather represent a few samples that we'll use in the figures throughout the tutorial to assist readers with visualizing the data we are working with.
@@ -153,13 +152,13 @@ demux = use.init_artifact_from_url(
    'https://zenodo.org/records/15390940/files/gut-to-soil-tutorial-nano2-demux-10p.qza?download=1')
 :::
 
-**Demultiplexed sequence data** is data where sequences have already been assigned to the sample that they were observed in.
+Demultiplexed sequence data is data where sequences have already been assigned to the sample that they were observed in.
 Paired-end read data means that for every sequence read in your dataset you have a forward read (which typically starts from the 5' end of the target amplicon sequence) and a reverse read (which typically starts from the 3' end of the targeted amplicon).
 In demultiplexed paired-end read data, you'll generally start with two fastq files per sample, one for the forward read, and one for the reverse read.
 For QIIME 2 to work with these data, it needs to know which of your fastq files contains the forward reads and which contains the reverse reads for each sample.
 For importing these data into QIIME 2, we generally recommend the use of a fastq manifest file which maps the sample identifier to the forward and reverse read file paths.
 [](#fig-fastq-manifest) presents an illustration of a fastq manifest file alongside two example fastq files.
-Like in [](#fig-sample-metadata-study), these are not real data but rather generated for illustrative purposes.
+Like in [](#fig-sample-metadata-study), these are not real data but rather the [constructed dataset](#gut-to-soil-tutorial:constructed-data) generated for illustrative purposes.
 
 :::{include} figures/fastq-manifest.md
 :::
@@ -517,10 +516,9 @@ This requires new levels of vigilance to ensure privacy and security when workin
 `rachis` Results can be [cryptographically signed](https://use.rachis.org/en/latest/how-to-guides/sign-and-verify-artifacts/#verify-signed-result), which can help you verify that the Artifact or Visualization was provided by the person who you think provided it.
 :::
 
-% TODO(greg): "GTDB version 232.0 (the most recent version, as of this writing)" is a dated remark, left as written.
 The taxonomic classifier used here is trained on reference sequences and taxonomy from GTDB version 202.0, which is an old version of the GTDB reference database [](doi:10.1093/nar/gkab776).
 We use it here because the reference data is relatively small, enabling classifier training and application to run on most modern computers.
-For comparison, GTDB version 202.0 contains 32,884 sequences (31,319 Bacteria + 1,565 Archaea) while GTDB version 232.0 (the most recent version, as of this writing) contains 93,770 sequences (88,481 Bacteria + 5,289 Archaea).
+For comparison, GTDB version 202.0 contains 32,884 sequences (31,319 Bacteria + 1,565 Archaea) while GTDB version 232.0 (the most recent version, as of this writing on 2 October 2026) contains 93,770 sequences (88,481 Bacteria + 5,289 Archaea).
 
 Training a taxonomy classifier can be a slow and memory-intensive step, and this is one of the slower steps in this tutorial.
 
@@ -582,7 +580,7 @@ This was indirectly mentioned earlier in the context of cryptographically signin
 In addition to [Signatures](xref:rachis-glossary-target#term-signature), an `Annotation[Note]` can be used to attach information to a Result, either as text or through a text file attachment.
 Below is an example of how we can append an `Annotation[Note]` to our classifier.
 
-% TODO(greg): `qiime tools annotation-create` has no Usage API equivalent, so this renders for the command line only.
+% TODO: `qiime tools annotation-create` has no Usage API equivalent, so this is presented for the command line only.
 ```shell
 qiime tools annotation-create \
   --input-path suboptimal-16S-rRNA-classifier.qza \
@@ -875,9 +873,8 @@ You can even present the results from different even sampling depths as suppleme
 Second, if you're using the rarefaction approach in q2-boots, which we illustrate in this tutorial, you can feel confident knowing that even if you choose a lower even sampling depth that discards a large fraction of your sequences, because the rarefy step will be run multiple times, those sequences will be used to define representative sample composition.
 In other words, even though an individual rarefy step may consider only a small fraction of your sequences, the multiple iterations (default of 100) will consider a much larger fraction.
 
-## Alpha and beta diversity analysis
+## Alpha and beta diversity analysis background
 
-% TODO(greg): the manuscript's diversity-metric discussion ("Alpha and beta diversity analysis" through "Phylogenetic inference", figures 13–18), collapsed by default (your 2026-10-02 call, replacing a separate page). The dropdown title is Claude's; its four headings are H3 inside the dropdown; check how they show in the page's contents sidebar.
 (gut-to-soil-tutorial:diversity-metrics)=
 ::::{dropdown} Background: alpha and beta diversity metrics
 
@@ -897,9 +894,8 @@ But, if you're driving between the cities, that distance won't be very relevant 
 In this case, a more relevant distance will be that of the shortest drivable route between the two cities, achieved by measuring the lengths of the roads composing the route.
 Just as there are many ways to compute the distance between two cities, there are many ways to assess the diversity of biological communities.
 
-% TODO(greg): "beyond the scope of this chapter" left as written.
 In this section, we're going to briefly cover three independent categorizations of diversity metrics and then mention specific examples of these that can be computed in QIIME 2.
-Detailed discussion of each metric is beyond the scope of this chapter.
+Detailed discussion of each metric is beyond the scope of this tutorial document, but there is plenty of online content about these.
 
 ### α Diversity versus β Diversity
 
@@ -1047,9 +1043,8 @@ We recommend `n=100` as a good starting point.
 Finally, the user must additionally indicate whether each individual resampling step should occur with or without replacement, through the `replacement` parameter.
 Sampling without replacement is rarefaction, and is most widely used.
 Sampling with replacement is bootstrapping (the origin of the name q2-boots).
-% TODO(greg): "As of this writing, we recommend sampling without replacement" is a dated remark, left as written.
 These produce nearly identical results [](doi:10.12688/f1000research.156295.1) and we recommend the field does additional work to determine if one or the other of these methods is better in practice.
-As of this writing, we recommend sampling without replacement to align with the most commonly used approach.
+As of this writing (on 2 October 2026), we recommend sampling without replacement to align with the most commonly used approach.
 
 :::{exercise} Choosing an even sampling depth.
 :label: choosing-sampling-depth
@@ -1071,14 +1066,12 @@ For the purpose of the tutorial, we'll select 96 to retain 75% of our samples.
 Because we're going to use rarefaction-based diversity calculations here, I'm less concerned about a lower number of sequences per sample.
 :::
 
-% TODO(greg): "Often, this might be closer to 10,000 for an Illumina run (as of 2026)" is a dated remark, left as written.
 Let's now run `kmer-diversity` on the tutorial data, which will involve setting the three required parameters mentioned above.
 Remember that we're working with a small subset of a full sequencing run in this tutorial, to keep the runtime short for the tutorial.
 As a result, the value used for `sampling-depth` here is very low.
 Often, this might be closer to 10,000 for an Illumina run (as of 2026), but this is highly dependent on the sequencing run, the number of samples included, and other factors.
 Additionally, to keep the runtime short, we set `n` to 10, and to align with the recommendation made earlier, we'll generate the evenly sampled feature tables without replacement.
 
-% TODO(greg): the manuscript writes the outputs to `--output-dir boots-kmer-diversity`; the Usage API names each output instead, so the outputs here are individually named and Exercise 17's path is adjusted accordingly.
 :::{describe-usage}
 use.action(
     use.UsageAction(plugin_id='boots',
@@ -1111,7 +1104,6 @@ For more information, read the q2-kmerizer paper [](doi:10.1128/msystems.01550-2
 :label: scatter-plot
 Open the scatter plot that was generated by the previous command, and plot the first two ordination axes computed from the Bray-Curtis distances by selecting them for the *xField* and *yField* dropdowns, respectively.
 Cycle through the different metadata columns available in the *colorBy* drop-down; this provides you with the ability to view color-coded sample grouping for any categorical metadata columns in your data.
-% TODO(greg): the manuscript's parenthetical "(While not available in QIIME 2 2026.7, the 2026.10 release of q2-vizard includes the ability to color-code by both categorical and numeric metadata columns and provides additional color palettes for paired and quad datasets.)" is version-specific and was dropped here.
 
 After exploring *colorBy* groupings, which of the metadata categories results in samples grouped most by color?
 :::
@@ -1129,7 +1121,7 @@ You can still cycle through all available numeric metadata columns on the y axis
 :label: ordination-plots
 When plotting Bray-Curtis PCoA axes 1 and 2 and coloring by `SampleType`, are the HEC samples more similar to the food compost or HE samples?
 
-What sample type is the MicrobeMix most similar to?
+What sample type is the Microbe Mix most similar to?
 The inside of the toilet pre-use?
 The bulking material?
 
@@ -1315,7 +1307,7 @@ You can also use the resulting script to adapt the commands presented in this tu
 Change back to your home directory by running `cd` with no arguments (i.e., simply run: `cd`).
 Assuming that you ran all of the steps above in a directory called `gut-to-soil/`, run the following command to generate a template script that you can adapt for your workflow:
 
-% TODO(greg): `qiime tools replay-provenance` has no Usage API equivalent, so this renders for the command line only.
+% TODO: `qiime tools replay-provenance` has no Usage API equivalent, so this is presented for the command line only.
 ```shell
 qiime tools replay-provenance \
   --in-fp gut-to-soil/ \
@@ -1373,7 +1365,6 @@ Because they are in data provenance, it's still possible to know exactly what th
 
 :::{exercise} Analyze your data provenance through rachis-view.
 :label: provenance-rachis-view
-% TODO(greg): the manuscript's path is `gut-to-soil/boots-kmer-diversity/scatter_plot.qzv`; the Usage API names the output `kmer-diversity-scatter-plot.qzv`, so the path is adjusted here.
 Load your `gut-to-soil/kmer-diversity-scatter-plot.qzv` file with [`rachis-view`](https://view.rachis.org) and select the *Provenance* tab.
 Compare the information presented in that view with the information presented in the provenance replay script generated in this section.
 What information is present in `rachis-view` that is not present in the provenance replay script?
@@ -1394,8 +1385,7 @@ You can find a Result's UUID in `rachis-view`.
 
 ## Conclusion
 
-% TODO(greg): "In this chapter, we presented ..." left as written; the online audience did not read a chapter.
-In this chapter, we presented a reproducible workflow and supporting data for applying amplicon sequencing and bioinformatics tools to study HEC.
+In this tutorial we presented a reproducible workflow and supporting data for applying amplicon sequencing and bioinformatics tools to study HEC.
 This workflow offers insight into the typical steps in an amplicon-sequencing-based microbiome analysis.
 The outcomes presented here are those that are most common to all amplicon analysis workflows, and from this point, analysis tends to diverge to focus on study-specific questions.
 The QIIME 2 documentation covers an increasingly broad selection of these analyses, and our developer and support community is available to advise as needed.
@@ -1426,12 +1416,18 @@ Now that you've completed this tutorial, you should be able to adapt the command
 You can find additional information and learning materials in our documentation starting from the [`rachis-library`](https://library.rachis.org), and if you need additional guidance the [QIIME 2 Forum](https://forum.qiime2.org) is an excellent resource containing over 10 years of questions and answers related to QIIME 2 and microbiome data science.
 Thanks for your interest, and we hope to see you on the QIIME 2 Forum!
 
-### A final word on the tutorial data
+### A final word on why we chose this tutorial data
 
 A final word on the tutorial data used here: adoption of HEC offers broad potential benefits, including for fresh water conservation, reduction of environmental contamination, improvement of public health nearly everywhere on Earth, and the advancement of the technologies that will someday enable human settlement off-Earth.
 Microbiomes drive the HEC reaction, and we postulate that HEC microbiome science and engineering can help optimize composting conditions for efficiency and safety, support bioprospecting for thermostable biotechnologically relevant enzymes (such as those that can degrade problematic waste materials), and inform accessible protocols for ensuring stringent safety standards are consistently met.
+
+Additionally, we think these data are great for learning.
+They embody highly dynamic microbiomes which consistently change from compositions associated with the human microbiome to those that looks more like soil microbiomes.
+As a result, we hope that regardless of where your interests lie in microbiome science, the techniques and the microbes represented here will be relevant to your work.
+
 As you start your journey in microbiome science we urge you to keep HEC systems in mind.
 Because of the scale of problems that we face, even small advances can have far-reaching impacts.
+Find a longer discussion of this [here](https://gut-to-soil-tutorial.readthedocs.io/en/latest/why/).
 
 :::{note} Citation
 This tutorial can be cited as:
