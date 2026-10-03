@@ -15,9 +15,9 @@ This tutorial assumes two things:
 ### The original study data
 
 The data used here was originally generated for [Meilander et al. (2025): Upcycling Human Excrement: The Gut Microbiome to Soil Microbiome Axis](doi:10.1093/ismeco/ycaf089), which profiles 15 biological replicates of mesophilic human excrement composting (HEC).
-The full dataset is available in a Zenodo archive [](doi:10.5281/zenodo.13887456) for continued exploration by learners.
+The full dataset is available in a Zenodo archive [@10.5281/zenodo.13887456] for continued exploration by learners.
 
-This is 16S rRNA data generated using the Earth Microbiome Project protocol [](doi:10.1038/ismej.2012.8).
+This is 16S rRNA data generated using the Earth Microbiome Project protocol [@10.1038/ismej.2012.8].
 Specifically, the hypervariable region 4 (V4) of the 16S rRNA gene was amplified using the F515-R806 primers—a broad-coverage primer pair for Bacteria that also amplifies some Archaea.
 Paired-end sequencing was performed on an Illumina MiSeq using the 2 ✕ 250 base pair chemistry.
 Full details are presented in the original publication.
@@ -213,7 +213,7 @@ If the primers are definitely present and of known length, this can be done with
 
 ## Sequence quality control and feature table construction
 
-QIIME 2 plugins are available for several quality control methods, including DADA2 [](doi:10.1038/nmeth.3869), Deblur [](doi:10.1128/msystems.00191-16), and basic quality-score-based filtering [](doi:10.1038/nmeth.2276).
+QIIME 2 plugins are available for several quality control methods, including DADA2 [@10.1038/nmeth.3869], Deblur [@10.1128/msystems.00191-16], and basic quality-score-based filtering [@10.1038/nmeth.2276].
 In this tutorial, we present this step using DADA2, which integrates quality control with the definition of the "features" that will be used to describe our samples.
 
 The primary results of interest from our DADA2 step will be a `FeatureTable[Frequency]` QIIME 2 artifact, which contains counts (frequencies) of each amplicon sequence variant (ASV, or unique sequence post-quality-control) in each sample in the dataset, and a `FeatureData[Sequence]` QIIME 2 artifact, which maps feature identifiers in the `FeatureTable` to the sequences they represent.
@@ -494,7 +494,7 @@ Be sure to run this as we're going to use one of the results below.
 
 ## Taxonomic annotation
 
-Before we begin analyzing our feature table, we'll generate taxonomic annotations for our sequences using the [q2-feature-classifier plugin](xref:rachis-library-target#q2-plugin-feature-classifier) [](doi:10.1186/s40168-018-0470-z).
+Before we begin analyzing our feature table, we'll generate taxonomic annotations for our sequences using the [q2-feature-classifier plugin](xref:rachis-library-target#q2-plugin-feature-classifier) [@10.1186/s40168-018-0470-z].
 We're going to do this here by training a machine learning classifier, and then applying it to our data.
 
 ### Training a taxonomic classifier
@@ -516,14 +516,14 @@ This requires new levels of vigilance to ensure privacy and security when workin
 `rachis` Results can be [cryptographically signed](https://use.rachis.org/en/latest/how-to-guides/sign-and-verify-artifacts/#verify-signed-result), which can help you verify that the Artifact or Visualization was provided by the person who you think provided it.
 :::
 
-The taxonomic classifier used here is trained on reference sequences and taxonomy from GTDB version 202.0, which is an old version of the GTDB reference database [](doi:10.1093/nar/gkab776).
+The taxonomic classifier used here is trained on reference sequences and taxonomy from GTDB version 202.0, which is an old version of the GTDB reference database [@10.1093/nar/gkab776].
 We use it here because the reference data is relatively small, enabling classifier training and application to run on most modern computers.
 For comparison, GTDB version 202.0 contains 32,884 sequences (31,319 Bacteria + 1,565 Archaea) while GTDB version 232.0 (the most recent version, as of this writing on 2 October 2026) contains 93,770 sequences (88,481 Bacteria + 5,289 Archaea).
 
 Training a taxonomy classifier can be a slow and memory-intensive step, and this is one of the slower steps in this tutorial.
 
 First, we'll obtain the sequence data and the associated taxonomy annotations.
-This is done using the [RESCRIPt plugin](xref:rachis-library-target#q2-plugin-rescript) [](doi:10.1371/journal.pcbi.1009581), which provides many utilities that are useful for training taxonomy classifiers.
+This is done using the [RESCRIPt plugin](xref:rachis-library-target#q2-plugin-rescript) [@10.1371/journal.pcbi.1009581], which provides many utilities that are useful for training taxonomy classifiers.
 Here we'll use the [`get-gtdb-data` action](xref:rachis-library-target#q2-action-rescript-get-gtdb-data), which automates the downloading of reference data from the GTDB database.
 We'll apply it here to download the 16S reference from GTDB version 202.0, including both the `FeatureData[Sequence]` and `FeatureData[Taxonomy]` artifacts.
 
@@ -598,7 +598,7 @@ You'll notice that the default output path for this annotated classifier is the 
 When you're ready to work on your own data, one of the choices you'll need to make is what classifier to use for your data.
 You can discover pre-trained classifiers, including classifiers for the most recent versions of GTDB and SILVA, on the [`rachis-library`](https://library.rachis.org).
 If you don't find a classifier that will work for you there, you may be able to [find one on the Forum](https://forum.qiime2.org/tag/taxonomy) or you can [train your own](https://github.com/bokulich-lab/RESCRIPt).
-If you do plan to train your own, we recommend the use of environment-weighted classifiers [](doi:10.1038/s41467-019-12669-6), also available from the [`rachis-library`](https://library.rachis.org).
+If you do plan to train your own, we recommend the use of environment-weighted classifiers [@10.1038/s41467-019-12669-6], also available from the [`rachis-library`](https://library.rachis.org).
 
 ### Apply our taxonomy classifier
 
@@ -959,7 +959,7 @@ QIIME 2 supports several phylogenetic diversity metrics, including Faith's Phylo
 :::{include} figures/unifrac.md
 :::
 
-Relatedness can alternatively be integrated in other ways, such as through shared kmer composition as in the [q2-kmerizer](xref:rachis-library-target#q2-plugin-kmerizer) [](doi:10.1128/msystems.01550-24) plugin.
+Relatedness can alternatively be integrated in other ways, such as through shared kmer composition as in the [q2-kmerizer](xref:rachis-library-target#q2-plugin-kmerizer) [@10.1128/msystems.01550-24] plugin.
 Briefly, this works by decomposing each ASV sequence into its constituent length-k words, or kmers, as illustrated in [](#fig-kmer-features)a.
 The feature table is then updated such that the features become these kmers, and their per-sample counts are the sum of the counts of the ASV(s) in which each was observed ([](#fig-kmer-features)b).
 This encodes feature relatedness directly in the feature table: evolutionarily closer sequences share more kmers, so diversity metrics computed on it integrate that relatedness.
@@ -972,13 +972,13 @@ These approaches achieve the same goal of integrating feature relatedness, but i
 The kmer approach is objectively simpler: it's a deterministic alignment-free approach with a single free parameter, k, that provides only rough estimates of feature relatedness.
 Phylogenetic inference involves many parameters and yields an explicit hypothesis about the evolutionary relationships between the features.
 The phylogenetic tree, when correct, has considerably more value (branch lengths, evolutionary placement of novel organisms), but each step carries assumptions and errors can propagate forward into the diversity metric.
-In practice, the simpler kmer-based diversity calculations appear to perform no worse than phylogeny-based methods [](doi:10.1128/msystems.01550-24).
+In practice, the simpler kmer-based diversity calculations appear to perform no worse than phylogeny-based methods [@10.1128/msystems.01550-24].
 
 Relatedness-based diversity metrics and identity-based diversity metrics provide different perspectives for resolving differences between microbiome samples, and both are common in practice.
 
 ### Phylogenetic inference
 
-QIIME 2 offers a few ways to build phylogenetic trees for use in computing phylogenetic diversity metrics, including a reference-based approach in the [q2-fragment-insertion plugin](xref:rachis-library-target#q2-plugin-fragment-insertion) [](doi:10.1128/mSystems.00021-18) and *de novo* (i.e., reference-free) approaches in the [q2-phylogeny plugin](xref:rachis-library-target#q2-plugin-phylogeny).
+QIIME 2 offers a few ways to build phylogenetic trees for use in computing phylogenetic diversity metrics, including a reference-based approach in the [q2-fragment-insertion plugin](xref:rachis-library-target#q2-plugin-fragment-insertion) [@10.1128/mSystems.00021-18] and *de novo* (i.e., reference-free) approaches in the [q2-phylogeny plugin](xref:rachis-library-target#q2-plugin-phylogeny).
 Each of these methods has benefits and drawbacks.
 The reference-based approach, by default, is specific to 16S rRNA marker gene analysis.
 This uses a pre-computed reference tree and then inserts the observed sequences into that tree.
@@ -994,7 +994,7 @@ In the gut-to-soil tutorial, we opt for the simpler kmer-based approach for comp
 
 In the past few sections we've covered a lot of background while running very few commands.
 We're going to pull this together in this section by running rarefaction (i.e., multiple iterations of rarefying) and using the resulting evenly sampled feature tables to compute qualitative and quantitative relatedness-based α and β diversity metrics.
-This is a complex but very common workflow, so QIIME 2 provides a single [Pipeline](xref:rachis-glossary-target#term-pipeline), [`kmer-diversity`](xref:rachis-library-target#q2-action-boots-kmer-diversity), to do all of this work in a single step in the [q2-boots](xref:rachis-library-target#q2-plugin-boots) [](doi:10.12688/f1000research.156295.1) plugin.
+This is a complex but very common workflow, so QIIME 2 provides a single [Pipeline](xref:rachis-glossary-target#term-pipeline), [`kmer-diversity`](xref:rachis-library-target#q2-action-boots-kmer-diversity), to do all of this work in a single step in the [q2-boots](xref:rachis-library-target#q2-plugin-boots) [@10.12688/f1000research.156295.1] plugin.
 The q2-boots plugin also provides all the constituent actions, so you can run the steps that are described here separately, but in practice that is not common.
 
 ::::{margin}
@@ -1006,8 +1006,8 @@ In the end, the difference should not be huge but this distinction could be impo
 :::
 ::::
 
-While `kmer-diversity` is accessed through q2-boots, the Pipeline leverages other QIIME 2 plugins including [q2-kmerizer](xref:rachis-library-target#q2-plugin-kmerizer) [](doi:10.1128/msystems.01550-24), [q2-vizard](xref:rachis-library-target#q2-plugin-vizard), and [q2-diversity](xref:rachis-library-target#q2-plugin-diversity).
-You can learn more about the rarefaction-based workflows in q2-boots and the kmer-based diversity analysis methods in q2-kmerizer in the respective papers about those plugins [](doi:10.12688/f1000research.156295.1) [](doi:10.1128/msystems.01550-24).
+While `kmer-diversity` is accessed through q2-boots, the Pipeline leverages other QIIME 2 plugins including [q2-kmerizer](xref:rachis-library-target#q2-plugin-kmerizer) [@10.1128/msystems.01550-24], [q2-vizard](xref:rachis-library-target#q2-plugin-vizard), and [q2-diversity](xref:rachis-library-target#q2-plugin-diversity).
+You can learn more about the rarefaction-based workflows in q2-boots and the kmer-based diversity analysis methods in q2-kmerizer in the respective papers about those plugins [@10.12688/f1000research.156295.1; @10.1128/msystems.01550-24].
 The following list describes the steps of the `kmer-diversity` Pipeline, with specific parameters that the user can set presented in monospace font (e.g., `sampling-depth`).
 
 1. Resample the input feature table ([](#fig-feature-table)a) to contain exactly `sampling-depth` sequences per sample, either by bootstrapping or rarefaction, `n` times.
@@ -1043,7 +1043,7 @@ We recommend `n=100` as a good starting point.
 Finally, the user must additionally indicate whether each individual resampling step should occur with or without replacement, through the `replacement` parameter.
 Sampling without replacement is rarefaction, and is most widely used.
 Sampling with replacement is bootstrapping (the origin of the name q2-boots).
-These produce nearly identical results [](doi:10.12688/f1000research.156295.1) and we recommend the field does additional work to determine if one or the other of these methods is better in practice.
+These produce nearly identical results [@10.12688/f1000research.156295.1] and we recommend the field does additional work to determine if one or the other of these methods is better in practice.
 As of this writing (on 2 October 2026), we recommend sampling without replacement to align with the most commonly used approach.
 
 :::{exercise} Choosing an even sampling depth.
@@ -1095,7 +1095,7 @@ use.action(
 After computing diversity metrics, we can begin to explore the microbial composition of the samples in the context of the sample metadata.
 As you're interpreting the results, remember that q2-kmerizer decomposes each sequence into its constituent kmers.
 This should be carefully considered when interpreting alpha diversity in particular, as the number of observed features (for example) would correspond to the number of unique kmers observed in a sample (representing the genetic diversity), not the number of unique sequences or taxa.
-For more information, read the q2-kmerizer paper [](doi:10.1128/msystems.01550-24).
+For more information, read the q2-kmerizer paper [@10.1128/msystems.01550-24].
 
 :::{include} figures/kmer-pcoa.md
 :::
@@ -1159,7 +1159,7 @@ This is a challenging problem and an open area of research, in part because the 
 If you have an *a priori* hypothesis about which feature(s) are differentially abundant across your sample groups, you should test that hypothesis with more traditional distribution comparison methods, remembering to correct for multiple comparisons.
 That type of test will be more statistically powerful for testing hypotheses about individual features, but will be too false positive prone to apply to all features in your feature table.
 
-ANCOM-BC2 [](doi:10.1038/s41592-023-02092-7) is a compositionally-aware linear regression model that allows testing for differentially abundant features across sample groups while also implementing bias correction.
+ANCOM-BC2 [@10.1038/s41592-023-02092-7] is a compositionally-aware linear regression model that allows testing for differentially abundant features across sample groups while also implementing bias correction.
 This can be accessed using the [`ancombc2` action](xref:rachis-library-target#q2-action-composition-ancombc2) in the [q2-composition plugin](xref:rachis-library-target#q2-plugin-composition), and we'll apply it here to determine which features differ in abundance between our HE, HEC, and Food Compost sample types.
 
 Differential abundance testing with ANCOM-BC2 operates on a feature table that has not undergone even sampling ([](#fig-feature-table)a), and in general you'll want to use the sample metadata ([](#fig-sample-metadata-study)) to filter samples that are irrelevant to the analysis from the feature table.
@@ -1300,7 +1300,7 @@ It's worth assessing the current state of the field when performing differential
 
 ## Ensuring bioinformatics reproducibility and adapting the tutorial workflow for your own data
 
-As a final step in the tutorial, we're going to apply the `rachis` [Provenance Replay](xref:rachis-glossary-target#term-provenance-replay) [](doi:10.1371/journal.pcbi.1011676) functionality to the results that were just generated.
+As a final step in the tutorial, we're going to apply the `rachis` [Provenance Replay](xref:rachis-glossary-target#term-provenance-replay) [@10.1371/journal.pcbi.1011676] functionality to the results that were just generated.
 This will generate a script that documents the analysis steps that you ran, and in general this could be submitted as a detailed supplementary methods document with a paper presenting your results.
 You can also use the resulting script to adapt the commands presented in this tutorial to your own data, adjusting parameter settings and metadata column headers as is relevant.
 
@@ -1392,13 +1392,13 @@ The QIIME 2 documentation covers an increasingly broad selection of these analys
 To explore some of the more study-specific analyses with the tutorial data presented here, a few next steps could be:
 
 1. Build a machine learning classifier that classifies samples according to the three dominant sample types in the feature table that we used with ANCOM-BC2.
-   (Hint: see [`classify-samples`](xref:rachis-library-target#q2-action-sample-classifier-classify-samples) in the [q2-sample-classifier plugin](xref:rachis-library-target#q2-plugin-sample-classifier) [](doi:10.21105/joss.00934).)
+   (Hint: see [`classify-samples`](xref:rachis-library-target#q2-action-sample-classifier-classify-samples) in the [q2-sample-classifier plugin](xref:rachis-library-target#q2-plugin-sample-classifier) [@10.21105/joss.00934].)
 2. Perform a longitudinal analysis that tracks which taxa change most with time in different buckets.
-   (Hint: see [`feature-volatility`](xref:rachis-library-target#q2-action-longitudinal-feature-volatility) using the [q2-longitudinal plugin](xref:rachis-library-target#q2-plugin-longitudinal) [](doi:10.1128/mSystems.00219-18)).
+   (Hint: see [`feature-volatility`](xref:rachis-library-target#q2-action-longitudinal-feature-volatility) using the [q2-longitudinal plugin](xref:rachis-library-target#q2-plugin-longitudinal) [@10.1128/mSystems.00219-18]).
 3. Identify a more modern taxonomy classifier using the resources [described earlier](#suboptimal-classifier-explanation) and apply it to the tutorial data.
    How does it change the taxonomic assignments?
    (Here's a [hint](#compare-taxonomic-annotations) on how to compare taxonomic annotations obtained from different classifiers.)
-4. The full dataset (five sequencing runs) is available in the gut-to-soil Artifact Repository [](doi:10.5281/zenodo.13887456).
+4. The full dataset (five sequencing runs) is available in the gut-to-soil Artifact Repository [@10.5281/zenodo.13887456].
    Download one of the larger sequencing runs (we worked with a small sequencing run that was generated as a preliminary test), and adapt the commands in the provenance replay script to analyze a bigger dataset.
 5. The `rachis` developers provide a utility, [artifinder](https://github.com/rachis-org/artifinder), designed to help you find and identify Artifacts that are relevant to your analysis from a directory that might contain a mix of relevant and irrelevant Artifacts and Visualizations.
    Install this, and try it out by following the instructions in the artifinder documentation.
