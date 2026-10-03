@@ -5,23 +5,16 @@ The gut-to-soil tutorial is intended to be the primary entry point for new users
 As we progress, you can run the commands from the tutorial on your own computer and you will be presented with exercises and solutions to encourage you to explore and interpret the results of the analysis steps.
 
 This tutorial assumes two things:
- * First, that you've read [Getting Started with QIIME 2](https://amplicon-docs.qiime2.org/en/stable/explanations/getting-started/). This will help you understand some of the informatics-y jargon used here. Also, see [the project glossary](http://news.rachis.org/glossary.html) for help with our jargon.
+ * First, that you've read [Getting Started with QIIME 2](https://amplicon-docs.qiime2.org/en/stable/explanations/getting-started/). This will help you understand some of the informatics-y jargon used here. Also, see [the project glossary](https://news.rachis.org/en/latest/glossary/) for help with our jargon.
  * And second, that you have a working installation of QIIME 2 (learn how to install QIIME 2 at https://install.qiime2.org). If you'd rather not install QIIME 2 before reading this document, all outputs that will be generated are linked from this document - so, the QIIME 2 installation is optional, but the tutorial is written assuming that you're running each command (including those in the Exercises) as they are presented.
 
-::::{margin}
-:::{tip} Why study human excrement composting?
-The [data used in this tutorial](gut-to-soil-tutorial:original-data) is from a study of microbial succession during human excrement composting (HEC).
-Get our take on why this is interesting [here](https://gut-to-soil-tutorial.readthedocs.io/en/latest/why/).
-:::
-::::
-
 (gut-to-soil-tutorial:data)=
-::::{dropdown} The tutorial data sets
+::::{dropdown} The data used in this tutorial
 
 (gut-to-soil-tutorial:original-data)=
 ### The original study data
 
-The data used here was originally generated for Meilander et al. (2025): Upcycling Human Excrement: The Gut Microbiome to Soil Microbiome Axis [](doi:10.1093/ismeco/ycaf089), which profiles 15 biological replicates of mesophilic human excrement composting (HEC).
+The data used here was originally generated for [Meilander et al. (2025): Upcycling Human Excrement: The Gut Microbiome to Soil Microbiome Axis](doi:10.1093/ismeco/ycaf089), which profiles 15 biological replicates of mesophilic human excrement composting (HEC).
 The full dataset is available in a Zenodo archive [](doi:10.5281/zenodo.13887456) for continued exploration by learners.
 
 This is 16S rRNA data generated using the Earth Microbiome Project protocol [](doi:10.1038/ismej.2012.8).
@@ -43,7 +36,7 @@ Together the FLWC and soil samples served as reference samples.
 (gut-to-soil-tutorial:tutorial-data)=
 ### The data subset for the hands-on tutorial
 
-The data used here is a subset (a single sequencing run) of the Meilander et al. (2025) data, specifically selected so that this tutorial can be run quickly on a personal computer.
+The data used here is a subset (a single sequencing run) of the [](doi:10.1093/ismeco/ycaf089) data, specifically selected so that this tutorial can be run quickly on a personal computer.
 This subset contains 104 samples with data from 13 buckets and includes 25 HEC samples, 19 HE samples, 20 FLWC samples, 15 Bulking Material samples, 10 samples from inside toilets pre-use, 10 soil samples collected near the composting toilets, and various additional control samples.
 This was a test sequencing run performed while sample collection was ongoing, and was intended to cover the different sample types that had been collected (e.g., to detect issues with extraction or sequencing protocols).
 As such, most buckets don't have dense temporal information but Bucket 5 is the exception with 14 samples over the first 18 weeks of composting.
@@ -58,6 +51,13 @@ This constructed dataset does not represent real samples, but it is inspired by 
 Specifically it models seven samples: one HE sample, five HEC samples from five different timepoints over one year of composting from a single bucket, and one food compost sample.
 This constructed dataset is intended to provide a way for readers to visualize and assess their understanding of the analysis process as we progress through the tutorial in a way that would be impossible even on the relatively simple tutorial data.
 
+::::
+
+::::{margin}
+:::{tip} Why study human excrement composting?
+The data used in this tutorial [originates from](#gut-to-soil-tutorial:original-data) a study of microbial succession during human excrement composting (HEC).
+Get our take on why this is interesting [here](https://gut-to-soil-tutorial.readthedocs.io/en/latest/why/).
+:::
 ::::
 
 ## Installing QIIME 2
@@ -77,7 +77,7 @@ If you received errors with these steps, we recommend looking for similar posts 
 (gut-to-soil-tutorial:sample-metadata)=
 ## Reviewing sample metadata and running a QIIME 2 command
 
-Before starting the analysis, we'll explore the sample metadata to get familiarized with the samples used in this study.
+Before starting the analysis, we'll explore the sample metadata to get familiarized with [the samples used in this study](#gut-to-soil-tutorial:tutorial-data).
 Sample metadata generally contains per-sample information relevant to your study.
 In this tutorial, the sample metadata includes information such as the sample type (see the `SampleType` column), the sample's pH at time of collection (see the `Compost pH` column), which of our biological replicates it came from (see the `Bucket` column), which composting timepoint the sample came from (if relevant, see the `Composting Time Point` column), and more.
 To learn about metadata in QIIME 2, including how it should be formatted, refer to our documentation on the [metadata format](https://use.rachis.org/en/latest/references/metadata.html).
@@ -876,7 +876,7 @@ In other words, even though an individual rarefy step may consider only a small 
 ## Alpha and beta diversity analysis background
 
 (gut-to-soil-tutorial:diversity-metrics)=
-::::{dropdown} Background: alpha and beta diversity metrics
+::::{dropdown} Background: alpha and beta diversity metrics  ([](#fig-alpha-diversity) - [](#fig-kmer-features))
 
 Alpha (α) and beta (β) diversity analysis are common next steps in a microbiome amplicon analysis, and facilitate interpretation of the relative similarities and differences across samples.
 α diversity metrics are computed from a single sample at a time, and as a result are often referred to as "within-sample" diversity.
@@ -1418,15 +1418,16 @@ Thanks for your interest, and we hope to see you on the QIIME 2 Forum!
 
 ### A final word on why we chose this tutorial data
 
-A final word on the tutorial data used here: adoption of HEC offers broad potential benefits, including for fresh water conservation, reduction of environmental contamination, improvement of public health nearly everywhere on Earth, and the advancement of the technologies that will someday enable human settlement off-Earth.
+A final word on the [data used in this tutorial](#gut-to-soil-tutorial:data): broader adoption of HEC as a waste management strategy would offer wide-ranging benefits, including for fresh water conservation, reduction of environmental contamination, improvement of public health nearly everywhere on Earth, and the advancement of the technologies that will someday enable human settlement off-Earth.
 Microbiomes drive the HEC reaction, and we postulate that HEC microbiome science and engineering can help optimize composting conditions for efficiency and safety, support bioprospecting for thermostable biotechnologically relevant enzymes (such as those that can degrade problematic waste materials), and inform accessible protocols for ensuring stringent safety standards are consistently met.
 
 Additionally, we think these data are great for learning.
-They embody highly dynamic microbiomes which consistently change from compositions associated with the human microbiome to those that looks more like soil microbiomes.
+They embody highly dynamic microbiomes which consistently change from compositions associated with the human microbiome to those that look more like soil microbiomes.
 As a result, we hope that regardless of where your interests lie in microbiome science, the techniques and the microbes represented here will be relevant to your work.
 
 As you start your journey in microbiome science we urge you to keep HEC systems in mind.
-Because of the scale of problems that we face, even small advances can have far-reaching impacts.
+Broader adoption of HEC technology isn't something we envision happening quickly or universally, but because of the scale of the problems, even small advances can have far-reaching impacts.
+If you're interested in HEC-related problems and solutions, feel free to connect with us through the [Compost Microbiome Lab (CML) 🐪](https://caplab.dev).
 Find a longer discussion of this [here](https://gut-to-soil-tutorial.readthedocs.io/en/latest/why/).
 
 :::{note} Citation
