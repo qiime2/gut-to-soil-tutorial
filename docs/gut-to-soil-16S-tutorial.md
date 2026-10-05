@@ -532,7 +532,8 @@ reference_taxonomy, reference_sequences = use.action(
     use.UsageAction(plugin_id='rescript',
                     action_id='get_gtdb_data'),
     use.UsageInputs(version='202.0',
-                    db_type='SpeciesReps'),
+                    db_type='SpeciesReps',
+                    db_url='australia'),
     use.UsageOutputNames(gtdb_taxonomy='reference-taxonomy',
                          gtdb_sequences='reference-sequences'))
 :::
