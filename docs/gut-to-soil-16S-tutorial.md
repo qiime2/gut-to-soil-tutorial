@@ -867,7 +867,7 @@ Other sample types appear unstable, but by comparing with the plot underneath th
 There are many [QIIME 2 Forum](https://forum.qiime2.org) posts on the topic of selecting an even sampling depth, and some [video content on the QIIME 2 YouTube channel](https://youtu.be/q-S2qVMyCVs).
 You can refer to those, and discuss with others on the forum if you have questions when making this decision for your analysis.
 We recommend keeping in mind a couple of points when deciding on a sampling depth.
-First, relative diversity metrics tend to be quite stable to low even sampling depths.
+First, relative diversity metrics tend to be quite stable down to low even sampling depths.
 For example, if you see a pattern of similarity between your samples at a relatively high even sampling depth, that pattern tends to also be present at relatively lower even sampling depths within reason.
 It never hurts to experiment with multiple even sampling depths and compare the results to assess whether your conclusions change.
 You can even present the results from different even sampling depths as supplementary analysis in a research paper—for example, by focusing on a lower even sampling depth that retains more samples in your main text figures, but then presenting results obtained with higher even sampling depths in a supplement to confirm that the patterns you presented are still apparent.
@@ -1064,7 +1064,7 @@ At 180 sequences per sample, we would retain 55 samples (56%) and 9,900 (33%) of
 Our alpha rarefaction curve suggests that a higher value (in the 180 range) would be more appropriate because the richness begins to stabilize.
 This is likely the most reasonable value to choose, but in this dataset it unfortunately would result in losing nearly 50% of our samples.
 For the purpose of the tutorial, we'll select 96 to retain 75% of our samples.
-Because we're going to use rarefaction-based diversity calculations here, I'm less concerned about a lower number of sequences per sample.
+Because we're going to use rarefaction-based diversity calculations here, we can be less concerned about a lower number of sequences per sample.
 :::
 
 Let's now run `kmer-diversity` on the tutorial data, which will involve setting the three required parameters mentioned above.
@@ -1220,7 +1220,7 @@ False positive corrected p-values (referred to here as q-values) are presented t
 Accurately identifying individual features that are differentially abundant across sample types in microbiome data is a challenging problem and an open area of research, particularly if you don't have an *a priori* hypothesis about which feature(s) are differentially abundant.
 A q-value that suggests that you've identified a feature that is differentially abundant across sample groups should be considered a hypothesis, not a conclusion, and you need new samples to test that new hypothesis.
 
-In addition to the methods contained in the [composition plugin](xref:rachis-library-target#q2-plugin-composition), new approaches for differential abundance testing are regularly introduced.
+In addition to the methods contained in the [q2-composition plugin](xref:rachis-library-target#q2-plugin-composition), new approaches for differential abundance testing are regularly introduced.
 It's worth assessing the current state of the field when performing differential abundance testing to see if there are new methods that might be useful for your data.
 If in doubt, consult a statistician.
 :::
@@ -1428,7 +1428,7 @@ As a result, we hope that regardless of where your interests lie in microbiome s
 
 As you start your journey in microbiome science we urge you to keep HEC systems in mind.
 Broader adoption of HEC technology isn't something we envision happening quickly or universally, but because of the scale of the problems, even small advances can have far-reaching impacts.
-If you're interested in HEC-related problems and solutions, feel free to connect with us through the [Compost Microbiome Lab (CML) 🐪](https://caplab.dev).
+If you're interested in HEC-related problems and solutions, feel free to connect with us through the [Compost Microbiome Lab (CML 🐪)](https://cap-lab.us/projects/compost-microbiome-lab/).
 Find a longer discussion of this [here](https://gut-to-soil-tutorial.readthedocs.io/en/latest/why/).
 
 :::{note} Citation
