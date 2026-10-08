@@ -1,4 +1,4 @@
-:::{figure} figures/alpha-rarefaction.svg
+:::{figure} https://raw.githubusercontent.com/qiime2/gut-to-soil-tutorial/9599fc05f261d0e4fad03eb0eee621ad9cecb1d5/docs/figures/alpha-rarefaction.svg
 :label: fig-alpha-rarefaction
 :alt: Alpha rarefaction plot of observed features as a function of even sampling depth
 

@@ -1,4 +1,4 @@
-:::{figure} figures/faith-pd.svg
+:::{figure} https://raw.githubusercontent.com/qiime2/gut-to-soil-tutorial/9599fc05f261d0e4fad03eb0eee621ad9cecb1d5/docs/figures/faith-pd.svg
 :label: fig-faith-pd
 :alt: Alpha diversity with Faith's Phylogenetic Diversity
 

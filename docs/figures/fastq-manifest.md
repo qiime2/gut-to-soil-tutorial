@@ -1,4 +1,4 @@
-:::{figure} figures/fastq-manifest.svg
+:::{figure} https://raw.githubusercontent.com/qiime2/gut-to-soil-tutorial/9599fc05f261d0e4fad03eb0eee621ad9cecb1d5/docs/figures/fastq-manifest.svg
 :label: fig-fastq-manifest
 :alt: Schematic view of a fastq manifest file and demultiplexed fastq data, ready for import into QIIME 2
 

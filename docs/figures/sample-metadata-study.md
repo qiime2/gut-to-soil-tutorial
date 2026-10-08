@@ -1,4 +1,4 @@
-:::{figure} figures/sample-metadata-study.svg
+:::{figure} https://raw.githubusercontent.com/qiime2/gut-to-soil-tutorial/9599fc05f261d0e4fad03eb0eee621ad9cecb1d5/docs/figures/sample-metadata-study.svg
 :label: fig-sample-metadata-study
 :alt: Simplified view of sample metadata for a few samples in the constructed data
 

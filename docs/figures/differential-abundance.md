@@ -1,4 +1,4 @@
-:::{figure} figures/differential-abundance.svg
+:::{figure} https://raw.githubusercontent.com/qiime2/gut-to-soil-tutorial/9599fc05f261d0e4fad03eb0eee621ad9cecb1d5/docs/figures/differential-abundance.svg
 :label: fig-differential-abundance
 :alt: Diverging barplot illustrating differential abundance of features across sample categories
 

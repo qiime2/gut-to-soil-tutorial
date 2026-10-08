@@ -1,4 +1,4 @@
-:::{figure} figures/taxa-barplot.svg
+:::{figure} https://raw.githubusercontent.com/qiime2/gut-to-soil-tutorial/9599fc05f261d0e4fad03eb0eee621ad9cecb1d5/docs/figures/taxa-barplot.svg
 :label: fig-taxa-barplot
 :alt: Taxonomic composition of samples as stacked bar plots
 

@@ -1,4 +1,4 @@
-:::{figure} figures/boots-kmer-diversity.svg
+:::{figure} https://raw.githubusercontent.com/qiime2/gut-to-soil-tutorial/9599fc05f261d0e4fad03eb0eee621ad9cecb1d5/docs/figures/boots-kmer-diversity.svg
 :label: fig-boots-kmer-diversity
 :alt: `kmer-diversity` workflow in q2-boots
 

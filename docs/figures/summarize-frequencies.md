@@ -1,4 +1,4 @@
-:::{figure} figures/summarize-frequencies.svg
+:::{figure} https://raw.githubusercontent.com/qiime2/gut-to-soil-tutorial/9599fc05f261d0e4fad03eb0eee621ad9cecb1d5/docs/figures/summarize-frequencies.svg
 :label: fig-summarize-frequencies
 :alt: Per-sample and per-feature summaries of the feature table
 
