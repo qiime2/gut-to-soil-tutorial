@@ -1,4 +1,4 @@
-:::{figure} figures/even-sampling.svg
+:::{figure} https://raw.githubusercontent.com/qiime2/gut-to-soil-tutorial/9599fc05f261d0e4fad03eb0eee621ad9cecb1d5/docs/figures/even-sampling.svg
 :label: fig-even-sampling
 :alt: Rarefying feature tables to achieve an even sampling depth across all samples
 

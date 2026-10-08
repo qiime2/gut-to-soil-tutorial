@@ -1,4 +1,4 @@
-:::{figure} figures/taxonomic-assignment.svg
+:::{figure} https://raw.githubusercontent.com/qiime2/gut-to-soil-tutorial/9599fc05f261d0e4fad03eb0eee621ad9cecb1d5/docs/figures/taxonomic-assignment.svg
 :label: fig-taxonomic-assignment
 :alt: Assigning taxonomy to observed sequences
 

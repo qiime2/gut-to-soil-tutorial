@@ -1,4 +1,4 @@
-:::{figure} figures/reference-database.svg
+:::{figure} https://raw.githubusercontent.com/qiime2/gut-to-soil-tutorial/9599fc05f261d0e4fad03eb0eee621ad9cecb1d5/docs/figures/reference-database.svg
 :label: fig-reference-database
 :alt: A reference database is used to train a taxonomic classifier
 

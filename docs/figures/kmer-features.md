@@ -1,4 +1,4 @@
-:::{figure} figures/kmer-features.svg
+:::{figure} https://raw.githubusercontent.com/qiime2/gut-to-soil-tutorial/9599fc05f261d0e4fad03eb0eee621ad9cecb1d5/docs/figures/kmer-features.svg
 :label: fig-kmer-features
 :alt: Kmerization of ASV sequences and a feature table
 

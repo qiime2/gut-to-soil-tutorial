@@ -1436,7 +1436,7 @@ This tutorial can be cited as:
 
 Caporaso JG, Herman C, Wood C, Gehret L, Simard A, Bolyen E, Dubois B, Bokulich NA, Meilander J.
 Microbiome marker gene analysis with QIIME 2: the "gut-to-soil microbiome axis" tutorial.
-In review, 2026.
+Preprint, Zenodo, 2026. https://doi.org/10.5281/zenodo.23237291
 :::
 
 [^iab-database-searching]: kmerization of biological sequences is described in the [*Database Searching* chapter of *An Introduction to Applied Bioinformatics*](https://readiab.org/database-searching.html#kmer-content).

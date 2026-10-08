@@ -1,4 +1,4 @@
-:::{figure} figures/phylogeny.svg
+:::{figure} https://raw.githubusercontent.com/qiime2/gut-to-soil-tutorial/9599fc05f261d0e4fad03eb0eee621ad9cecb1d5/docs/figures/phylogeny.svg
 :label: fig-phylogeny
 :alt: A rooted phylogeny of the ASV sequences
 
