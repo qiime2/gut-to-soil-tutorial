@@ -56,7 +56,7 @@ This constructed dataset is intended to provide a way for readers to visualize a
 ::::{margin}
 :::{tip} Why study human excrement composting?
 The data used in this tutorial [originates from](#gut-to-soil-tutorial:original-data) a study of microbial succession during human excrement composting (HEC).
-Get our take on why this is interesting [here](https://gut-to-soil-tutorial.readthedocs.io/en/latest/why/).
+Get our take on why this is interesting [here](https://gut-to-soil-tutorial.readthedocs.io/en/2026.10/why/).
 :::
 ::::
 
@@ -168,12 +168,12 @@ A fastq manifest is a specific type of sample metadata file.
 Specifically, it's one that contains `forward-absolute-filepath` and `reverse-absolute-filepath` columns, with absolute file paths present for every sample identifier in the table.
 
 Because sequence data can be delivered to you in many different forms, it's not possible to cover the varieties here.
-Instead, we refer you to [How to import data for use with QIIME 2](https://amplicon-docs.qiime2.org/en/latest/how-to-guides/how-to-import.html) to learn how to import your data.
-If you want to learn why importing is necessary, refer to [Why importing is necessary](https://amplicon-docs.qiime2.org/en/latest/explanations/why-importing.html).
+Instead, we refer you to [How to import data for use with QIIME 2](https://amplicon-docs.qiime2.org/en/2026.10/how-to-guides/how-to-import.html) to learn how to import your data.
+If you want to learn why importing is necessary, refer to [Why importing is necessary](https://amplicon-docs.qiime2.org/en/2026.10/explanations/why-importing.html).
 
 To simplify processing of your data, we recommend that you ask your sequencing center to provide data already demultiplexed.
 This should be something they can easily do, and it simplifies processing as you don't need to know how data was barcoded for multiplexed sequencing.
-You can also ask them to provide a fastq manifest file for your sequencing data, which should be easy for them to generate based on the [file specification](https://amplicon-docs.qiime2.org/en/latest/how-to-guides/how-to-import.html#import-fastq-manifest); if they're not able to do this, you can use a tool like [fq-manifestor](https://forum.qiime2.org/t/fq-manifestor-a-web-app-for-generating-fastq-manifest-files/34114) to generate one.
+You can also ask them to provide a fastq manifest file for your sequencing data, which should be easy for them to generate based on the [file specification](https://amplicon-docs.qiime2.org/en/2026.10/how-to-guides/how-to-import.html#import-fastq-manifest); if they're not able to do this, you can use a tool like [fq-manifestor](https://forum.qiime2.org/t/fq-manifestor-a-web-app-for-generating-fastq-manifest-files/34114) to generate one.
 
 ## Summarize demultiplexed sequences
 
@@ -421,7 +421,7 @@ We don't recommend OTU clustering in most workflows, nor do we apply it in the g
 We instead recommend ASVs as features in marker gene studies because they provide higher resolution, improve reproducibility, and facilitate more accurate taxonomic classification.
 Because ASVs represent exact amplicon sequences, they can be consistently identified across samples and datasets and facilitate comparisons across microbiome studies.
 
-It is however possible to do OTU clustering with QIIME 2, and you can find instructions in [our documentation](https://amplicon-docs.qiime2.org/en/latest/how-to-guides/cluster-reads-into-otus/) if you'd like to do this.
+It is however possible to do OTU clustering with QIIME 2, and you can find instructions in [our documentation](https://amplicon-docs.qiime2.org/en/2026.10/how-to-guides/cluster-reads-into-otus/) if you'd like to do this.
 [](#fig-otu-vs-asv) illustrates how the ASVs in the example data might be grouped into OTUs.
 Notice that the resolution of the resulting feature table is lower: ASVs 9 and 10, for example, are grouped into OTU7, and that masks the observation that ASV10 is absent from several of the earlier samples in our time series.
 This may therefore be masking useful information that could have been lost from our study.
@@ -985,7 +985,7 @@ The reference-based approach, by default, is specific to 16S rRNA marker gene an
 This uses a pre-computed reference tree and then inserts the observed sequences into that tree.
 *De novo* tree building, an alternative, doesn't rely on any outside information so can be used with any phylogenetically informative marker gene (not just 16S).
 Reference-based tree building is generally considered to result in a higher-quality tree than *de novo* tree building, but you need to have a tree that you trust to begin with.
-Reference-based tree building is illustrated in the [Parkinson's Mouse tutorial](https://docs.qiime2.org/2024.10/tutorials/pd-mice/), and *de novo* tree building is illustrated in the [Moving Pictures tutorial](https://amplicon-docs.qiime2.org/en/latest/tutorials/moving-pictures.html).
+Reference-based tree building is illustrated in the [Parkinson's Mouse tutorial](https://docs.qiime2.org/2024.10/tutorials/pd-mice/), and *de novo* tree building is illustrated in the [Moving Pictures tutorial](https://amplicon-docs.qiime2.org/en/2026.10/tutorials/moving-pictures.html).
 In the gut-to-soil tutorial, we opt for the simpler kmer-based approach for computing relatedness-based diversity metrics so we will skip the phylogenetic reconstruction step.
 
 ::::
@@ -1429,7 +1429,7 @@ As a result, we hope that regardless of where your interests lie in microbiome s
 As you start your journey in microbiome science we urge you to keep HEC systems in mind.
 Broader adoption of HEC technology isn't something we envision happening quickly or universally, but because of the scale of the problems, even small advances can have far-reaching impacts.
 If you're interested in HEC-related problems and solutions, feel free to connect with us through the [Compost Microbiome Lab (CML 🐪)](https://cap-lab.us/projects/compost-microbiome-lab/).
-Find a longer discussion of this [here](https://gut-to-soil-tutorial.readthedocs.io/en/latest/why/).
+Find a longer discussion of this [here](https://gut-to-soil-tutorial.readthedocs.io/en/2026.10/why/).
 
 :::{note} Citation
 This tutorial can be cited as:
