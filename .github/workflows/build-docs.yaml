@@ -49,13 +49,13 @@ jobs:
           df -h .
 
       - name: create environment
-        run: mamba env create -p .env/ --file environment-files/readthedocs.yml
+        run: mamba env create -p "$PWD/.env" --file environment-files/readthedocs.yml
 
       - name: export resolved environment
         run: |
           mkdir -p env-report
-          mamba list -p .env/ --explicit > env-report/explicit.txt
-          mamba env export -p .env/ > env-report/environment.yml
+          mamba list -p "$PWD/.env" --explicit > env-report/explicit.txt
+          mamba env export -p "$PWD/.env" > env-report/environment.yml
 
       - name: set RTD-style URL variables
         if: env.CANONICAL_URL != ''
