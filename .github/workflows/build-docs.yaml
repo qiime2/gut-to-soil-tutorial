@@ -36,7 +36,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: set up miniforge
-        uses: conda-incubator/setup-miniconda@v3
+        uses: qiime2-cutlery/setup-miniconda@v3
         with:
           miniforge-version: latest
           auto-activate-base: true
