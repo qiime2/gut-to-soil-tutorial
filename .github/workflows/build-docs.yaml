@@ -10,11 +10,7 @@ on:
   workflow_dispatch:
     inputs:
       canonical-url:
-        description: >-
-          Optional absolute URL the build will be served from
-          (e.g. https://gut-to-soil-tutorial.readthedocs.io/en/latest/).
-          Sets READTHEDOCS_CANONICAL_URL (q2doc data links) and BASE_URL
-          (mystmd site path); leave empty for local builds
+        description: 'URL the docs will be served from (optional)'
         required: false
         default: ''
 
@@ -51,12 +47,6 @@ jobs:
       - name: create environment
         run: mamba env create -p "$PWD/.env" --file environment-files/readthedocs.yml
 
-      - name: export resolved environment
-        run: |
-          mkdir -p env-report
-          mamba list -p "$PWD/.env" --explicit > env-report/explicit.txt
-          mamba env export -p "$PWD/.env" > env-report/environment.yml
-
       - name: set RTD-style URL variables
         if: env.CANONICAL_URL != ''
         run: |
@@ -76,11 +66,3 @@ jobs:
           name: html
           path: docs/_build/html/
           if-no-files-found: error
-
-      - name: upload environment report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: env-report
-          path: env-report/
-          if-no-files-found: ignore
