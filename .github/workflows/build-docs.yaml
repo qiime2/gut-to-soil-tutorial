@@ -1,0 +1,86 @@
+name: build-docs
+
+# builds the book on a GH runner with the same steps as .readthedocs.yaml
+# and then saves the resulting HTML as an artifact
+# testing this out in preparation for migration to a direct upload on RTD
+# https://docs.readthedocs.com/platform/stable/guides/build/direct-upload.html
+
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      canonical-url:
+        description: >-
+          Optional absolute URL the build will be served from
+          (e.g. https://gut-to-soil-tutorial.readthedocs.io/en/latest/).
+          Sets READTHEDOCS_CANONICAL_URL (q2doc data links) and BASE_URL
+          (mystmd site path); leave empty for local builds
+        required: false
+        default: ''
+
+concurrency:
+  group: build-docs-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    defaults:
+      run:
+        # login shell so setup-miniconda's conda/mamba are on PATH
+        shell: bash -el {0}
+    env:
+      CANONICAL_URL: ${{ inputs.canonical-url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: set up miniforge
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          miniforge-version: latest
+          auto-activate-base: true
+          activate-environment: ''
+
+      - name: runner resources
+        run: |
+          nproc
+          free -h
+          df -h .
+
+      - name: create environment
+        run: mamba env create -p .env/ --file environment-files/readthedocs.yml
+
+      - name: export resolved environment
+        run: |
+          mkdir -p env-report
+          mamba list -p .env/ --explicit > env-report/explicit.txt
+          mamba env export -p .env/ > env-report/environment.yml
+
+      - name: set RTD-style URL variables
+        if: env.CANONICAL_URL != ''
+        run: |
+          base_url=$(echo "$CANONICAL_URL" | sed -E -e 's#^https?://[^/]+##' -e 's#/$##')
+          echo "READTHEDOCS_CANONICAL_URL=$CANONICAL_URL" >> "$GITHUB_ENV"
+          echo "BASE_URL=$base_url" >> "$GITHUB_ENV"
+
+      - name: refresh q2doc cache
+        run: PATH=$(pwd)/.env/bin/:$PATH q2doc refresh-cache
+
+      - name: build html
+        run: PATH=$(pwd)/.env/bin/:$PATH make html
+
+      - name: upload html
+        uses: actions/upload-artifact@v4
+        with:
+          name: html
+          path: docs/_build/html/
+          if-no-files-found: error
+
+      - name: upload environment report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: env-report
+          path: env-report/
+          if-no-files-found: ignore
