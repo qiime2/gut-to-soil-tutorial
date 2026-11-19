@@ -50,4 +50,4 @@ Finally, run the following to serve the built documentation locally:
 make serve
 ```
 
-Have fun!
+Have fun! 👋🏼
