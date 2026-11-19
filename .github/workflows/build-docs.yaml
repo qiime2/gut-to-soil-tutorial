@@ -1,8 +1,7 @@
 name: build-docs
 
-# builds the book on a GH runner with the same steps as .readthedocs.yaml
-# and then saves the resulting HTML as an artifact
-# testing this out in preparation for migration to a direct upload on RTD
+# builds the book on a GH runner with the same steps as .readthedocs.yaml,
+# saves the resulting HTML as an artifact & uploads it to RTD as the PR preview
 # https://docs.readthedocs.com/platform/stable/guides/build/direct-upload.html
 
 on:
@@ -28,6 +27,7 @@ jobs:
         shell: bash -el {0}
     env:
       CANONICAL_URL: ${{ inputs.canonical-url }}
+      PR_NUMBER: ${{ github.event.pull_request.number }}
     steps:
       - uses: actions/checkout@v4
 
@@ -48,8 +48,12 @@ jobs:
         run: mamba env create -p "$PWD/.env" --file environment-files/readthedocs.yml
 
       - name: set RTD-style URL variables
-        if: env.CANONICAL_URL != ''
+        if: env.CANONICAL_URL != '' || env.PR_NUMBER != ''
         run: |
+          # PR previews are served from RTD's external-version domain
+          if [ -n "$PR_NUMBER" ]; then
+            CANONICAL_URL="https://gut-to-soil-tutorial--${PR_NUMBER}.org.readthedocs.build/en/${PR_NUMBER}/"
+          fi
           base_url=$(echo "$CANONICAL_URL" | sed -E -e 's#^https?://[^/]+##' -e 's#/$##')
           echo "READTHEDOCS_CANONICAL_URL=$CANONICAL_URL" >> "$GITHUB_ENV"
           echo "BASE_URL=$base_url" >> "$GITHUB_ENV"
@@ -66,3 +70,14 @@ jobs:
           name: html
           path: docs/_build/html/
           if-no-files-found: error
+
+      # PRs from forks don't get secrets, so only same-repo PRs upload
+      - name: upload to Read the Docs
+        if: >-
+          github.event_name == 'pull_request' &&
+          github.event.pull_request.head.repo.full_name == github.repository
+        uses: readthedocs/upload-action@v1
+        with:
+          token: ${{ secrets.GTS_PAT }}
+          project-slug: gut-to-soil-tutorial
+          html: docs/_build/html
