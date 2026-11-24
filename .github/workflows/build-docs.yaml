@@ -44,11 +44,15 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number }}
           HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
           CANONICAL_URL: ${{ inputs.canonical-url }}
+          SHA: ${{ github.sha }}
         run: |
           site="https://${RTD_SLUG}.readthedocs.io/en"
-          entry() {  # label, version-name ('' = inferred by the upload action), url, upload
+          # label, version-name, url, upload, [version-type], [commit]
+          # ('' for version-name/type/commit = inferred by the upload action)
+          entry() {
             jq -nc --arg l "$1" --arg v "$2" --arg u "$3" --argjson up "$4" \
-              '{label: $l, version: $v, url: $u, upload: $up}'
+              --arg t "${5:-}" --arg c "${6:-}" \
+              '{label: $l, version: $v, url: $u, upload: $up, type: $t, commit: $c}'
           }
 
           entries=()
@@ -71,7 +75,8 @@ jobs:
                   | sed -nE 's#.*refs/heads/([0-9]{4}\.[0-9]+)$#\1#p' | sort -V | tail -n 1)
                 echo "newest release branch: ${newest}"
                 if [ "$REF_NAME" = "$newest" ]; then
-                  entries+=("$(entry stable stable "${site}/stable/" true)")
+                  # RTD matches on name + type; stable is a tag-type version
+                  entries+=("$(entry stable stable "${site}/stable/" true tag "$SHA")")
                 fi
               else
                 echo "::error::push to unrecognized branch ${REF_NAME}"
@@ -149,3 +154,5 @@ jobs:
           project-slug: ${{ env.RTD_SLUG }}
           html: docs/_build/html
           version-name: ${{ matrix.version }}
+          version-type: ${{ matrix.type }}
+          commit: ${{ matrix.commit }}
