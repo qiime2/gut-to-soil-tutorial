@@ -143,7 +143,7 @@ jobs:
 
       - name: upload to Read the Docs
         if: matrix.upload
-        uses: readthedocs/upload-action@v1
+        uses: qiime2-cutlery/upload-action@main
         with:
           token: ${{ secrets.GTS_PAT }}
           project-slug: ${{ env.RTD_SLUG }}
