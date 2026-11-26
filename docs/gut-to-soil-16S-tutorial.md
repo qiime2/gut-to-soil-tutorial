@@ -985,7 +985,7 @@ The reference-based approach, by default, is specific to 16S rRNA marker gene an
 This uses a pre-computed reference tree and then inserts the observed sequences into that tree.
 *De novo* tree building, an alternative, doesn't rely on any outside information so can be used with any phylogenetically informative marker gene (not just 16S).
 Reference-based tree building is generally considered to result in a higher-quality tree than *de novo* tree building, but you need to have a tree that you trust to begin with.
-Reference-based tree building is illustrated in the [Parkinson's Mouse tutorial](https://docs.qiime2.org/2024.10/tutorials/pd-mice/), and *de novo* tree building is illustrated in the [Moving Pictures tutorial](https://amplicon-docs.qiime2.org/en/latest/tutorials/moving-pictures.html).
+Reference-based tree building is illustrated in the [fragment insertion section](https://docs.qiime2.org/en/latest/how-to-guides/infer-phylogenies/#infer-phylogenies-fragment-insertion) of [*How to infer phylogenies with `q2-phylogeny` and `q2-fragment-insertion`*](https://docs.qiime2.org/en/latest/how-to-guides/infer-phylogenies/), and *de novo* tree building is illustrated in [the rest of that guide](https://docs.qiime2.org/en/latest/how-to-guides/infer-phylogenies/#sequence-alignment).
 In the gut-to-soil tutorial, we opt for the simpler kmer-based approach for computing relatedness-based diversity metrics so we will skip the phylogenetic reconstruction step.
 
 ::::
